@@ -1,0 +1,105 @@
+﻿using SimHub.Plugins;
+using System;
+using System.Runtime.InteropServices;
+using static SimHubToF12020UDP.F12020Struct;
+
+namespace SimHubToF12020UDP.Packets
+{
+    internal static class CarTelemetryDataPacket
+    {
+        private static uint FrameCount = 0;
+
+        public static byte[] Read()
+        {
+            var pluginManager = PluginManager.GetInstance();
+
+            var start = pluginManager.GetPropertyValue("DataCorePlugin.GameRunning");
+
+            if (start == null || !Convert.ToBoolean(start))
+            {
+                return new byte[0];
+            }
+
+            FrameCount = (FrameCount + 1) % uint.MaxValue;
+
+            var header = new PacketHeader
+            {
+                m_packetFormat = 2020,
+                m_gameMajorVersion = 1,
+                m_gameMinorVersion = 16,
+                m_packetVersion = 1,
+                m_sessionUID = 0,
+                m_sessionTime = 0,
+                m_frameIdentifier = FrameCount,
+                m_playerCarIndex = 0,
+                m_secondaryPlayerCarIndex = 0,
+                m_packetId = 6
+            };
+
+            var packet = new PacketCarTelemetryData
+            {
+                m_header = header,
+                m_carTelemetryData = new CarTelemetryData[22],
+                m_buttonStatus = 0,
+                m_mfdPanelIndex = 255,
+                m_mfdPanelIndexSecondaryPlayer = 255,
+                m_suggestedGear = 0
+            };
+
+            var gear = pluginManager.GetPropertyValue("DataCorePlugin.GameData.Gear");
+            gear = (string)gear == "N" ? 0 : gear;
+
+            packet.m_carTelemetryData[0] = new CarTelemetryData
+            {
+                m_speed = Convert.ToUInt16(pluginManager.GetPropertyValue("DataCorePlugin.GameData.SpeedKmh")),
+                m_throttle = (float)Convert.ToDouble(pluginManager.GetPropertyValue("DataCorePlugin.GameData.Throttle")),
+                m_steer = 0,
+                m_brake = (float)Convert.ToDouble(pluginManager.GetPropertyValue("DataCorePlugin.GameData.Brake")),
+                m_clutch = Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.Clutch")),
+                m_gear = Convert.ToSByte(gear),
+                m_engineRPM = Convert.ToUInt16(pluginManager.GetPropertyValue("DataCorePlugin.GameData.Rpms")),
+                m_drs = Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.DRSEnabled")),
+                m_revLightsPercent = Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.CarSettings_CurrentDisplayedRPMPercent")),
+                m_brakesTemperature = new ushort[4] 
+                {
+                    Convert.ToUInt16(pluginManager.GetPropertyValue("DataCorePlugin.GameData.BrakeTemperatureFrontLeft")),
+                    Convert.ToUInt16(pluginManager.GetPropertyValue("DataCorePlugin.GameData.BrakeTemperatureFrontRight")),
+                    Convert.ToUInt16(pluginManager.GetPropertyValue("DataCorePlugin.GameData.BrakeTemperatureRearLeft")),
+                    Convert.ToUInt16(pluginManager.GetPropertyValue("DataCorePlugin.GameData.BrakeTemperatureRearRight"))
+                },
+                m_tyresSurfaceTemperature = new byte[4]
+                {
+                    Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyreTemperatureFrontLeft")),
+                    Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyreTemperatureFrontRight")),
+                    Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyreTemperatureRearLeft")),
+                    Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyreTemperatureRearRight"))
+                },
+                m_tyresInnerTemperature = new byte[4]
+                {
+                    Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyreTemperatureFrontLeftInner")),
+                    Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyreTemperatureFrontRightInner")),
+                    Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyreTemperatureRearLeftInner")),
+                    Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyreTemperatureRearRightInner"))
+                },
+                m_engineTemperature = Convert.ToUInt16(pluginManager.GetPropertyValue("DataCorePlugin.GameData.OilTemperature")),
+                m_tyresPressure = new float[4]
+                {
+                    (float)Convert.ToDouble(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyrePressureFrontLeft")),
+                    (float)Convert.ToDouble(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyrePressureFrontRight")),
+                    (float)Convert.ToDouble(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyrePressureRearLeft")),
+                    (float)Convert.ToDouble(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyrePressureRearRight"))
+                },
+                m_surfaceType = new byte[4] { 0, 0, 0, 0 },
+            };
+
+            int size = Marshal.SizeOf(packet);
+            byte[] arr = new byte[size];
+
+            IntPtr ptr = Marshal.AllocHGlobal(size);
+            Marshal.StructureToPtr(packet, ptr, true);
+            Marshal.Copy(ptr, arr, 0, size);
+            Marshal.FreeHGlobal(ptr);
+            return arr;
+        }
+    }
+}
