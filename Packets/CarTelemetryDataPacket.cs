@@ -49,6 +49,12 @@ namespace SimHubToF12020UDP.Packets
             var gear = pluginManager.GetPropertyValue("DataCorePlugin.GameData.Gear");
             gear = (string)gear == "N" ? 0 : gear;
 
+            var redlinePercent = Math.Max(0, Convert.ToDouble(pluginManager.GetPropertyValue("DataCorePlugin.GameData.Rpms")) - Convert.ToDouble(pluginManager.GetPropertyValue("DataCorePlugin.GameData.CarSettings_CurrentGearRedLineRPM")))
+                                / (Convert.ToDouble(pluginManager.GetPropertyValue("DataCorePlugin.GameData.CarSettings_MaxRPM")) - Convert.ToDouble(pluginManager.GetPropertyValue("DataCorePlugin.GameData.CarSettings_CurrentGearRedLineRPM")));
+            var revLightsPercent = Convert.ToDouble(pluginManager.GetPropertyValue("DataCorePlugin.GameData.CarSettings_RPMShiftLight1")) / 3.0
+                                    + Convert.ToDouble(pluginManager.GetPropertyValue("DataCorePlugin.GameData.CarSettings_RPMShiftLight2")) / 3.0
+                                    + redlinePercent / 3.0;
+
             packet.m_carTelemetryData[0] = new CarTelemetryData
             {
                 m_speed = Convert.ToUInt16(pluginManager.GetPropertyValue("DataCorePlugin.GameData.SpeedKmh")),
@@ -59,8 +65,8 @@ namespace SimHubToF12020UDP.Packets
                 m_gear = Convert.ToSByte(gear),
                 m_engineRPM = Convert.ToUInt16(pluginManager.GetPropertyValue("DataCorePlugin.GameData.Rpms")),
                 m_drs = Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.DRSEnabled")),
-                m_revLightsPercent = Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.CarSettings_CurrentDisplayedRPMPercent")),
-                m_brakesTemperature = new ushort[4] 
+                m_revLightsPercent = (byte)(revLightsPercent * 100),
+                m_brakesTemperature = new ushort[4]
                 {
                     Convert.ToUInt16(pluginManager.GetPropertyValue("DataCorePlugin.GameData.BrakeTemperatureFrontLeft")),
                     Convert.ToUInt16(pluginManager.GetPropertyValue("DataCorePlugin.GameData.BrakeTemperatureFrontRight")),
