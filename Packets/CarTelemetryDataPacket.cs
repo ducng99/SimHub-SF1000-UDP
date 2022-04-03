@@ -68,32 +68,32 @@ namespace SimHubToF12020UDP.Packets
                 m_revLightsPercent = (byte)(revLightsPercent * 100),
                 m_brakesTemperature = new ushort[4]
                 {
+                    Convert.ToUInt16(pluginManager.GetPropertyValue("DataCorePlugin.GameData.BrakeTemperatureRearLeft")),
+                    Convert.ToUInt16(pluginManager.GetPropertyValue("DataCorePlugin.GameData.BrakeTemperatureRearRight")),
                     Convert.ToUInt16(pluginManager.GetPropertyValue("DataCorePlugin.GameData.BrakeTemperatureFrontLeft")),
                     Convert.ToUInt16(pluginManager.GetPropertyValue("DataCorePlugin.GameData.BrakeTemperatureFrontRight")),
-                    Convert.ToUInt16(pluginManager.GetPropertyValue("DataCorePlugin.GameData.BrakeTemperatureRearLeft")),
-                    Convert.ToUInt16(pluginManager.GetPropertyValue("DataCorePlugin.GameData.BrakeTemperatureRearRight"))
                 },
                 m_tyresSurfaceTemperature = new byte[4]
                 {
+                    Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyreTemperatureRearLeft")),
+                    Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyreTemperatureRearRight")),
                     Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyreTemperatureFrontLeft")),
                     Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyreTemperatureFrontRight")),
-                    Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyreTemperatureRearLeft")),
-                    Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyreTemperatureRearRight"))
                 },
                 m_tyresInnerTemperature = new byte[4]
                 {
+                    Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyreTemperatureRearLeftInner")),
+                    Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyreTemperatureRearRightInner")),
                     Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyreTemperatureFrontLeftInner")),
                     Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyreTemperatureFrontRightInner")),
-                    Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyreTemperatureRearLeftInner")),
-                    Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyreTemperatureRearRightInner"))
                 },
                 m_engineTemperature = Convert.ToUInt16(pluginManager.GetPropertyValue("DataCorePlugin.GameData.OilTemperature")),
                 m_tyresPressure = new float[4]
                 {
+                    (float)Convert.ToDouble(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyrePressureRearLeft")),
+                    (float)Convert.ToDouble(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyrePressureRearRight")),
                     (float)Convert.ToDouble(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyrePressureFrontLeft")),
                     (float)Convert.ToDouble(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyrePressureFrontRight")),
-                    (float)Convert.ToDouble(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyrePressureRearLeft")),
-                    (float)Convert.ToDouble(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyrePressureRearRight"))
                 },
                 m_surfaceType = new byte[4] { 0, 0, 0, 0 },
             };
