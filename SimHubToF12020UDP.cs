@@ -25,6 +25,8 @@ namespace SimHubToF12020UDPPlugin
         {
             // Save settings
             this.SaveCommonSettings("GeneralSettings", Settings);
+
+            UDPServer.DestroyInstance();
         }
 
         /// <summary>
@@ -49,7 +51,13 @@ namespace SimHubToF12020UDPPlugin
             // Load settings
             Settings = this.ReadCommonSettings("GeneralSettings", () => new SimHubToF12020UDPSettings());
 
-            UDPServer.Instance.Init();
+            Regex F1gameMatch = new(@"/^F120\d{2}$/");
+
+            // Only run if not in F1 game
+            if (!F1gameMatch.IsMatch(pluginManager.GameName))
+            {
+                UDPServer.Instance.Init();
+            }
         }
     }
 }

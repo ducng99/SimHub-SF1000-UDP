@@ -13,6 +13,8 @@ namespace SimHubToF12020UDPPlugin
         private UdpClient udpClient;
         private IPEndPoint sender = new(IPAddress.Parse("192.168.1.20"), 20777);
 
+        private Task[] RunningTasks = new Task[0];
+
         public IPAddress ReceiverIP
         {
             private get { return null; }
@@ -38,6 +40,16 @@ namespace SimHubToF12020UDPPlugin
             }
         }
 
+        public static void DestroyInstance()
+        {
+            Instance.udpClient.Close();
+            Instance.udpClient = null;
+
+            Task.WaitAll(Instance.RunningTasks);
+
+            Instance = null;
+        }
+
         private UDPServer()
         {
             SimHub.Logging.Current.Info("UDP Server starting");
@@ -58,18 +70,21 @@ namespace SimHubToF12020UDPPlugin
 
         public void Init()
         {
-            Task.Run(LoopSessionData);
-            Task.Run(LoopLapData);
-            Task.Run(LoopCarTelemetryData);
-            Task.Run(LoopCarStatusData);
-            Task.Run(LoopCarSetupData);
+            RunningTasks = new Task[]
+            {
+                Task.Run(LoopSessionData),
+                Task.Run(LoopLapData),
+                Task.Run(LoopCarTelemetryData),
+                Task.Run(LoopCarStatusData),
+                Task.Run(LoopCarSetupData),
+            };
         }
 
         public async void LoopSessionData()
         {
             var timer = DateTime.Now;
 
-            while (true)
+            while (udpClient != null)
             {
                 var deltaTime = DateTime.Now.Subtract(timer).TotalMilliseconds;
 
@@ -96,7 +111,7 @@ namespace SimHubToF12020UDPPlugin
         {
             var timer = DateTime.Now;
 
-            while (true)
+            while (udpClient != null)
             {
                 var deltaTime = DateTime.Now.Subtract(timer).TotalMilliseconds;
 
@@ -123,7 +138,7 @@ namespace SimHubToF12020UDPPlugin
         {
             var timer = DateTime.Now;
 
-            while (true)
+            while (udpClient != null)
             {
                 var deltaTime = DateTime.Now.Subtract(timer).TotalMilliseconds;
 
@@ -150,7 +165,7 @@ namespace SimHubToF12020UDPPlugin
         {
             var timer = DateTime.Now;
 
-            while (true)
+            while (udpClient != null)
             {
                 var deltaTime = DateTime.Now.Subtract(timer).TotalMilliseconds;
 
@@ -177,7 +192,7 @@ namespace SimHubToF12020UDPPlugin
         {
             var timer = DateTime.Now;
 
-            while (true)
+            while (udpClient != null)
             {
                 var deltaTime = DateTime.Now.Subtract(timer).TotalMilliseconds;
 
