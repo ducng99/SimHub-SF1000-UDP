@@ -14,8 +14,9 @@ namespace SimHubToF12020UDP.Packets
             var pluginManager = PluginManager.GetInstance();
 
             var start = pluginManager.GetPropertyValue("DataCorePlugin.GameRunning");
+            var paused = pluginManager.GetPropertyValue("DataCorePlugin.GamePaused");
 
-            if (start == null || !Convert.ToBoolean(start))
+            if (!Convert.ToBoolean(start) || Convert.ToBoolean(paused))
             {
                 return new byte[0];
             }
@@ -53,10 +54,10 @@ namespace SimHubToF12020UDP.Packets
                 m_fuelCapacity = (float)Convert.ToDouble(pluginManager.GetPropertyValue("DataCorePlugin.GameData.MaxFuel")),
                 m_fuelRemainingLaps = (float)Convert.ToDouble(pluginManager.GetPropertyValue("DataCorePlugin.Computed.Fuel_RemainingLaps")),
                 m_maxRPM = Convert.ToUInt16(pluginManager.GetPropertyValue("DataCorePlugin.GameData.CarSettings_MaxRPM")),
-                m_idleRPM = (ushort)(Convert.ToDouble(pluginManager.GetPropertyValue("DataCorePlugin.GameData.CarSettings_MaxRPM")) * 0.33),
+                m_idleRPM = (ushort)(Convert.ToDouble(pluginManager.GetPropertyValue("DataCorePlugin.GameData.CarSettings_MaxRPM")) * 0.27),
                 m_maxGears = Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.CarSettings_MaxGears")),
                 m_drsAllowed = Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.DRSAvailable")),
-                m_drsActivationDistance = (ushort)(10 * Convert.ToUInt16(pluginManager.GetPropertyValue("DataCorePlugin.GameData.DRSAvailable"))),
+                m_drsActivationDistance = (ushort)(Convert.ToBoolean(pluginManager.GetPropertyValue("DataCorePlugin.GameData.DRSAvailable")) ? 0 : 50),
                 m_tyresWear = new byte[4]
                 {
                     (byte)(100 - Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyreWearRearLeft"))),

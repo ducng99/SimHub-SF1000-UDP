@@ -14,8 +14,9 @@ namespace SimHubToF12020UDP.Packets
             var pluginManager = PluginManager.GetInstance();
 
             var start = pluginManager.GetPropertyValue("DataCorePlugin.GameRunning");
+            var paused = pluginManager.GetPropertyValue("DataCorePlugin.GamePaused");
 
-            if (start == null || !Convert.ToBoolean(start))
+            if (!Convert.ToBoolean(start) || Convert.ToBoolean(paused))
             {
                 return new byte[0];
             }
@@ -42,9 +43,9 @@ namespace SimHubToF12020UDP.Packets
                 m_lapData = new LapData[22]
             };
 
-            float lapDistance = (float)((double)(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TrackPositionPercent") ?? 0d) * (double)(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TrackLength") ?? 0d));
-            float totalDistance = lapDistance + (Convert.ToUInt16(pluginManager.GetPropertyValue("DataCorePlugin.GameData.CompletedLaps"))) * Convert.ToUInt16(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TrackLength"));
-            byte pitStatus = (byte)(((int)(pluginManager.GetPropertyValue("DataCorePlugin.GameData.IsInPit") ?? 0)) > 0 ? 2 : (((int)(pluginManager.GetPropertyValue("DataCorePlugin.GameData.IsInPitLane") ?? 0)) > 0 ? 1 : 0));
+            float lapDistance = (float)(Convert.ToDouble(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TrackPositionPercent")) * Convert.ToDouble(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TrackLength")));
+            float totalDistance = lapDistance + Convert.ToUInt16(pluginManager.GetPropertyValue("DataCorePlugin.GameData.CompletedLaps")) * Convert.ToUInt16(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TrackLength"));
+            byte pitStatus = (byte)(Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.IsInPit")) == 1 ? 2 : Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.IsInPitLane")));
 
             packet.m_lapData[0] = new LapData
             {

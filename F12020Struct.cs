@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
 namespace SimHubToF12020UDP
 {
@@ -81,11 +80,11 @@ namespace SimHubToF12020UDP
         public struct WeatherForecastSample
         {
             public byte m_sessionType;                     // 0 = unknown, 1 = P1, 2 = P2, 3 = P3, 4 = Short P, 5 = Q1
-                                                    // 6 = Q2, 7 = Q3, 8 = Short Q, 9 = OSQ, 10 = R, 11 = R2
-                                                    // 12 = Time Trial
+                                                           // 6 = Q2, 7 = Q3, 8 = Short Q, 9 = OSQ, 10 = R, 11 = R2
+                                                           // 12 = Time Trial
             public byte m_timeOffset;                      // Time in minutes the forecast is for
             public byte m_weather;                         // Weather - 0 = clear, 1 = light cloud, 2 = overcast
-                                                    // 3 = light rain, 4 = heavy rain, 5 = storm
+                                                           // 3 = light rain, 4 = heavy rain, 5 = storm
             public sbyte m_trackTemperature;                // Track temp. in degrees celsius
             public sbyte m_airTemperature;                  // Air temp. in degrees celsius
         };
@@ -96,17 +95,17 @@ namespace SimHubToF12020UDP
             public PacketHeader m_header;                    // Header
 
             public byte m_weather;                   // Weather - 0 = clear, 1 = light cloud, 2 = overcast
-                                              // 3 = light rain, 4 = heavy rain, 5 = storm
+                                                     // 3 = light rain, 4 = heavy rain, 5 = storm
             public sbyte m_trackTemperature;          // Track temp. in degrees celsius
             public sbyte m_airTemperature;            // Air temp. in degrees celsius
             public byte m_totalLaps;                 // Total number of laps in this race
             public ushort m_trackLength;               // Track length in metres
             public byte m_sessionType;               // 0 = unknown, 1 = P1, 2 = P2, 3 = P3, 4 = Short P
-                                              // 5 = Q1, 6 = Q2, 7 = Q3, 8 = Short Q, 9 = OSQ
-                                              // 10 = R, 11 = R2, 12 = Time Trial
+                                                     // 5 = Q1, 6 = Q2, 7 = Q3, 8 = Short Q, 9 = OSQ
+                                                     // 10 = R, 11 = R2, 12 = Time Trial
             public sbyte m_trackId;                   // -1 for unknown, 0-21 for tracks, see appendix
             public byte m_formula;                   // Formula, 0 = F1 Modern, 1 = F1 Classic, 2 = F2,
-                                              // 3 = F1 Generic
+                                                     // 3 = F1 Generic
             public ushort m_sessionTimeLeft;           // Time left in session in seconds
             public ushort m_sessionDuration;           // Session duration in seconds
             public byte m_pitSpeedLimit;             // Pit speed limit in kilometres per hour
@@ -119,7 +118,7 @@ namespace SimHubToF12020UDP
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)]
             public MarshalZone[] m_marshalZones;          // List of marshal zones – max 21
             public byte m_safetyCarStatus;           // 0 = no safety car, 1 = full safety car
-                                              // 2 = virtual safety car
+                                                     // 2 = virtual safety car
             public byte m_networkGame;               // 0 = offline, 1 = online
             public byte m_numWeatherForecastSamples; // Number of weather samples to follow
 
@@ -150,9 +149,9 @@ namespace SimHubToF12020UDP
 
 
             public float m_lapDistance;               // Distance vehicle is around current lap in metres – could
-                                               // be negative if line hasn’t been crossed yet
+                                                      // be negative if line hasn’t been crossed yet
             public float m_totalDistance;             // Total distance travelled in session in metres – could
-                                               // be negative if line hasn’t been crossed yet
+                                                      // be negative if line hasn’t been crossed yet
             public float m_safetyCarDelta;            // Delta in seconds for safety car
             public byte m_carPosition;               // Car race position
             public byte m_currentLapNum;             // Current lap number
@@ -162,10 +161,10 @@ namespace SimHubToF12020UDP
             public byte m_penalties;                 // Accumulated time penalties in seconds to be added
             public byte m_gridPosition;              // Grid position the vehicle started the race in
             public byte m_driverStatus;              // Status of driver - 0 = in garage, 1 = flying lap
-                                              // 2 = in lap, 3 = out lap, 4 = on track
+                                                     // 2 = in lap, 3 = out lap, 4 = on track
             public byte m_resultStatus;              // Result status - 0 = invalid, 1 = inactive, 2 = active
-                                              // 3 = finished, 4 = disqualified, 5 = not classified
-                                              // 6 = retired
+                                                     // 3 = finished, 4 = disqualified, 5 = not classified
+                                                     // 6 = retired
         };
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -226,6 +225,29 @@ namespace SimHubToF12020UDP
             EventDataDetails	m_eventDetails;       // Event details - should be interpreted differently
                                                         // for each type
         };*/
+
+        public struct ParticipantData
+        {
+            public byte m_aiControlled;            // Whether the vehicle is AI (1) or Human (0) controlled
+            public byte m_driverId;                // Driver id - see appendix
+            public byte m_teamId;                  // Team id - see appendix
+            public byte m_raceNumber;              // Race number of the car
+            public byte m_nationality;             // Nationality of the driver
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 48)]
+            public char[] m_name;                  // Name of participant in UTF-8 format – null terminated
+                                            // Will be truncated with … (U+2026) if too long
+            public byte m_yourTelemetry;           // The player's UDP setting, 0 = restricted, 1 = public
+        };
+
+        public struct PacketParticipantsData
+        {
+            public PacketHeader m_header;           // Header
+
+            public byte m_numActiveCars;  // Number of active cars in the data – should match number of
+                                   // cars on HUD
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 22)]
+            public ParticipantData[] m_participants;
+        };
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
         public struct CarSetupData
@@ -298,16 +320,16 @@ namespace SimHubToF12020UDP
             public CarTelemetryData[] m_carTelemetryData;
 
             public uint m_buttonStatus;        // Bit flags specifying which buttons are being pressed
-                                          // currently - see appendices
+                                               // currently - see appendices
 
             // Added in Beta 3:
             public byte m_mfdPanelIndex;       // Index of MFD panel open - 255 = MFD closed
-                                        // Single player, race – 0 = Car setup, 1 = Pits
-                                        // 2 = Damage, 3 =  Engine, 4 = Temperatures
-                                        // May vary depending on game mode
+                                               // Single player, race – 0 = Car setup, 1 = Pits
+                                               // 2 = Damage, 3 =  Engine, 4 = Temperatures
+                                               // May vary depending on game mode
             public byte m_mfdPanelIndexSecondaryPlayer;   // See above
             public sbyte m_suggestedGear;       // Suggested gear for the player (1-8)
-                                         // 0 if no gear suggested
+                                                // 0 if no gear suggested
         };
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -334,14 +356,14 @@ namespace SimHubToF12020UDP
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
             public byte[] m_tyresWear;             // Tyre wear percentage
             public byte m_actualTyreCompound;     // F1 Modern - 16 = C5, 17 = C4, 18 = C3, 19 = C2, 20 = C1
-                                           // 7 = inter, 8 = wet
-                                           // F1 Classic - 9 = dry, 10 = wet
-                                           // F2 – 11 = super soft, 12 = soft, 13 = medium, 14 = hard
-                                           // 15 = wet
+                                                  // 7 = inter, 8 = wet
+                                                  // F1 Classic - 9 = dry, 10 = wet
+                                                  // F2 – 11 = super soft, 12 = soft, 13 = medium, 14 = hard
+                                                  // 15 = wet
             public byte m_visualTyreCompound;        // F1 visual (can be different from actual compound)
-                                              // 16 = soft, 17 = medium, 18 = hard, 7 = inter, 8 = wet
-                                              // F1 Classic – same as above
-                                              // F2 – same as above
+                                                     // 16 = soft, 17 = medium, 18 = hard, 7 = inter, 8 = wet
+                                                     // F1 Classic – same as above
+                                                     // F2 – same as above
             public byte m_tyresAgeLaps;             // Age in laps of the current set of tyres
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
             public byte[] m_tyresDamage;           // Tyre damage (percentage)
@@ -355,10 +377,10 @@ namespace SimHubToF12020UDP
             public byte m_engineDamage;             // Engine damage (percentage)
             public byte m_gearBoxDamage;            // Gear box damage (percentage)
             public sbyte m_vehicleFiaFlags;          // -1 = invalid/unknown, 0 = none, 1 = green
-                                              // 2 = blue, 3 = yellow, 4 = red
+                                                     // 2 = blue, 3 = yellow, 4 = red
             public float m_ersStoreEnergy;           // ERS energy store in Joules
             public byte m_ersDeployMode;            // ERS deployment mode, 0 = none, 1 = medium
-                                             // 2 = overtake, 3 = hotlap
+                                                    // 2 = overtake, 3 = hotlap
             public float m_ersHarvestedThisLapMGUK;  // ERS energy harvested this lap by MGU-K
             public float m_ersHarvestedThisLapMGUH;  // ERS energy harvested this lap by MGU-H
             public float m_ersDeployedThisLap;       // ERS energy deployed this lap

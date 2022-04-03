@@ -76,7 +76,8 @@ namespace SimHubToF12020UDPPlugin
                 Task.Run(LoopLapData),
                 Task.Run(LoopCarTelemetryData),
                 Task.Run(LoopCarStatusData),
-                Task.Run(LoopCarSetupData),
+                //Task.Run(LoopCarSetupData),
+                Task.Run(LoopParticipantData),
             };
         }
 
@@ -202,8 +203,8 @@ namespace SimHubToF12020UDPPlugin
 
                     try
                     {
-                        var lapdata = LapDataPacket.Read();
-                        await udpClient.SendAsync(lapdata, lapdata.Length, sender);
+                        var lapData = LapDataPacket.Read();
+                        await udpClient.SendAsync(lapData, lapData.Length, sender);
                     }
                     catch (Exception ex)
                     {
@@ -212,6 +213,33 @@ namespace SimHubToF12020UDPPlugin
                 }
 
                 await Task.Delay(8);
+            }
+        }
+        
+        public async void LoopParticipantData()
+        {
+            var timer = DateTime.Now;
+
+            while (udpClient != null)
+            {
+                var deltaTime = DateTime.Now.Subtract(timer).TotalSeconds;
+
+                if (deltaTime >= 5)
+                {
+                    timer = DateTime.Now;
+
+                    try
+                    {
+                        var participantData = ParticipantDataPacket.Read();
+                        await udpClient.SendAsync(participantData, participantData.Length, sender);
+                    }
+                    catch (Exception ex)
+                    {
+                        SimHub.Logging.Current.Error("Failed to send UDP packet\n" + ex);
+                    }
+                }
+
+                await Task.Delay(2500);
             }
         }
     }

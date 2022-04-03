@@ -14,8 +14,9 @@ namespace SimHubToF12020UDP.Packets
             var pluginManager = PluginManager.GetInstance();
 
             var start = pluginManager.GetPropertyValue("DataCorePlugin.GameRunning");
+            var paused = pluginManager.GetPropertyValue("DataCorePlugin.GamePaused");
 
-            if (start == null || !Convert.ToBoolean(start))
+            if (!Convert.ToBoolean(start) || Convert.ToBoolean(paused))
             {
                 return new byte[0];
             }
@@ -58,10 +59,10 @@ namespace SimHubToF12020UDP.Packets
             packet.m_carTelemetryData[0] = new CarTelemetryData
             {
                 m_speed = Convert.ToUInt16(pluginManager.GetPropertyValue("DataCorePlugin.GameData.SpeedKmh")),
-                m_throttle = (float)Convert.ToDouble(pluginManager.GetPropertyValue("DataCorePlugin.GameData.Throttle")),
+                m_throttle = (float)Convert.ToDouble(pluginManager.GetPropertyValue("DataCorePlugin.GameData.Throttle")) / 100f,
                 m_steer = 0,
-                m_brake = (float)Convert.ToDouble(pluginManager.GetPropertyValue("DataCorePlugin.GameData.Brake")),
-                m_clutch = Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.Clutch")),
+                m_brake = (float)Convert.ToDouble(pluginManager.GetPropertyValue("DataCorePlugin.GameData.Brake")) / 100f,
+                m_clutch = (byte)Math.Max(100, Convert.ToUInt32(pluginManager.GetPropertyValue("DataCorePlugin.GameData.Clutch"))),
                 m_gear = Convert.ToSByte(gear),
                 m_engineRPM = Convert.ToUInt16(pluginManager.GetPropertyValue("DataCorePlugin.GameData.Rpms")),
                 m_drs = Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.DRSEnabled")),
