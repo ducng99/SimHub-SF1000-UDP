@@ -47,7 +47,7 @@ namespace SimHubToF12020UDP.Packets
             };
 
             var gear = pluginManager.GetPropertyValue("DataCorePlugin.GameData.Gear");
-            gear = (string)gear == "N" ? 0 : gear;
+            gear = (string)gear == "N" ? 0 : ((string)gear == "R" ? -1 : gear);
 
             var redlinePercent = Math.Max(0, Convert.ToDouble(pluginManager.GetPropertyValue("DataCorePlugin.GameData.Rpms")) - Convert.ToDouble(pluginManager.GetPropertyValue("DataCorePlugin.GameData.CarSettings_CurrentGearRedLineRPM")))
                                 / (Convert.ToDouble(pluginManager.GetPropertyValue("DataCorePlugin.GameData.CarSettings_MaxRPM")) - Convert.ToDouble(pluginManager.GetPropertyValue("DataCorePlugin.GameData.CarSettings_CurrentGearRedLineRPM")));
