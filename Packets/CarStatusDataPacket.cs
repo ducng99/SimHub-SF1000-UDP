@@ -56,23 +56,23 @@ namespace SimHubToF12020UDP.Packets
                 m_idleRPM = (ushort)(Convert.ToDouble(pluginManager.GetPropertyValue("DataCorePlugin.GameData.CarSettings_MaxRPM")) * 0.33),
                 m_maxGears = Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.CarSettings_MaxGears")),
                 m_drsAllowed = Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.DRSAvailable")),
-                m_drsActivationDistance = 0,
+                m_drsActivationDistance = (ushort)(10 * Convert.ToUInt16(pluginManager.GetPropertyValue("DataCorePlugin.GameData.DRSAvailable"))),
                 m_tyresWear = new byte[4]
                 {
+                    (byte)(100 - Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyreWearRearLeft"))),
+                    (byte)(100 - Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyreWearRearRight"))),
                     (byte)(100 - Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyreWearFrontLeft"))),
                     (byte)(100 - Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyreWearFrontRight"))),
-                    (byte)(100 - Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyreWearRearLeft"))),
-                    (byte)(100 - Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyreWearRearRight")))
                 },
                 m_actualTyreCompound = 16,
                 m_visualTyreCompound = 16,
                 m_tyresAgeLaps = 0,
                 m_tyresDamage = new byte[4]
                 {
+                    (byte)(100 - Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyreWearRearLeft"))),
+                    (byte)(100 - Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyreWearRearRight"))),
                     (byte)(100 - Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyreWearFrontLeft"))),
                     (byte)(100 - Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyreWearFrontRight"))),
-                    (byte)(100 - Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyreWearRearLeft"))),
-                    (byte)(100 - Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyreWearRearRight")))
                 },
                 m_frontLeftWingDamage = 0,
                 m_frontRightWingDamage = 0,
