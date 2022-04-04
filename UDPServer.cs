@@ -52,20 +52,7 @@ namespace SimHubToF12020UDPPlugin
 
         private UDPServer()
         {
-            SimHub.Logging.Current.Info("UDP Server starting");
-
-            do
-            {
-                try
-                {
-                    udpClient = new();
-                }
-                catch (Exception) { }
-
-                Thread.Sleep(1000);
-            } while (udpClient == null);
-
-            SimHub.Logging.Current.Info("UDP Server started!");
+            udpClient = new();
         }
 
         public void Init()
@@ -76,7 +63,6 @@ namespace SimHubToF12020UDPPlugin
                 Task.Run(LoopLapData),
                 Task.Run(LoopCarTelemetryData),
                 Task.Run(LoopCarStatusData),
-                //Task.Run(LoopCarSetupData),
                 Task.Run(LoopParticipantData),
             };
         }
@@ -97,33 +83,6 @@ namespace SimHubToF12020UDPPlugin
                     {
                         var sessionData = SessionDataPacket.Read();
                         await udpClient.SendAsync(sessionData, sessionData.Length, sender);
-                    }
-                    catch (Exception ex)
-                    {
-                        SimHub.Logging.Current.Error("Failed to send UDP packet\n" + ex);
-                    }
-                }
-
-                await Task.Delay(250);
-            }
-        }
-
-        public async void LoopCarSetupData()
-        {
-            var timer = DateTime.Now;
-
-            while (udpClient != null)
-            {
-                var deltaTime = DateTime.Now.Subtract(timer).TotalMilliseconds;
-
-                if (deltaTime >= 500)
-                {
-                    timer = DateTime.Now;
-
-                    try
-                    {
-                        var carSetupData = CarSetupDataPacket.Read();
-                        await udpClient.SendAsync(carSetupData, carSetupData.Length, sender);
                     }
                     catch (Exception ex)
                     {

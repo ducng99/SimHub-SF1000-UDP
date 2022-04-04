@@ -249,7 +249,7 @@ namespace SimHubToF12020UDP
             public ParticipantData[] m_participants;
         };
 
-        [StructLayout(LayoutKind.Sequential, Pack = 1)]
+        /*[StructLayout(LayoutKind.Sequential, Pack = 1)]
         public struct CarSetupData
         {
             public byte m_frontWing;                // Front wing aero
@@ -283,7 +283,7 @@ namespace SimHubToF12020UDP
 
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 22)]
             public CarSetupData[] m_carSetups;
-        };
+        };*/
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
         public struct CarTelemetryData

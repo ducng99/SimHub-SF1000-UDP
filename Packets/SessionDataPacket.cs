@@ -14,9 +14,8 @@ namespace SimHubToF12020UDP.Packets
             var pluginManager = PluginManager.GetInstance();
 
             var start = pluginManager.GetPropertyValue("DataCorePlugin.GameRunning");
-            var paused = pluginManager.GetPropertyValue("DataCorePlugin.GamePaused");
 
-            if (!Convert.ToBoolean(start) || Convert.ToBoolean(paused))
+            if (!Convert.ToBoolean(start))
             {
                 return new byte[0];
             }
@@ -47,8 +46,8 @@ namespace SimHubToF12020UDP.Packets
                 m_trackLength = Convert.ToUInt16(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TrackLength")),
                 m_sessionType = 0,
                 m_trackId = -1,
-                m_formula = 3,
-                m_sessionTimeLeft = (ushort)((TimeSpan)(pluginManager.GetPropertyValue("DataCorePlugin.GameData.SessionTimeLeft") ?? new TimeSpan())).TotalSeconds,
+                m_formula = 0,
+                m_sessionTimeLeft = (ushort)Math.Abs(((TimeSpan)(pluginManager.GetPropertyValue("DataCorePlugin.GameData.SessionTimeLeft") ?? new TimeSpan())).TotalSeconds),
                 m_sessionDuration = 600,
                 m_pitSpeedLimit = 80,
                 m_gamePaused = Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GamePaused")),
