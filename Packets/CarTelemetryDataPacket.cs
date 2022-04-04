@@ -1,7 +1,6 @@
 ﻿using SimHub.Plugins;
 using System;
 using System.Runtime.InteropServices;
-using static SimHubToF12020UDP.F12020Struct;
 
 namespace SimHubToF12020UDP.Packets
 {
@@ -61,7 +60,7 @@ namespace SimHubToF12020UDP.Packets
                 m_throttle = (float)Convert.ToDouble(pluginManager.GetPropertyValue("DataCorePlugin.GameData.Throttle")) / 100f,
                 m_steer = 0,
                 m_brake = (float)Convert.ToDouble(pluginManager.GetPropertyValue("DataCorePlugin.GameData.Brake")) / 100f,
-                m_clutch = (byte)Math.Max(100, Convert.ToUInt32(pluginManager.GetPropertyValue("DataCorePlugin.GameData.Clutch"))),
+                m_clutch = (byte)(Math.Max(100, Convert.ToUInt32(pluginManager.GetPropertyValue("DataCorePlugin.GameData.Clutch"))) / 100),     // Clutch value is different each game, some returns percentage, some returns raw value (3700)
                 m_gear = Convert.ToSByte(gear),
                 m_engineRPM = Convert.ToUInt16(pluginManager.GetPropertyValue("DataCorePlugin.GameData.Rpms")),
                 m_drs = Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.DRSEnabled")),

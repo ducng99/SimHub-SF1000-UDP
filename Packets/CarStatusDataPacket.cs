@@ -1,7 +1,6 @@
 ﻿using SimHub.Plugins;
 using System;
 using System.Runtime.InteropServices;
-using static SimHubToF12020UDP.F12020Struct;
 
 namespace SimHubToF12020UDP.Packets
 {
