@@ -37,25 +37,26 @@
   <ItemGroup>
     <Reference Include="GameReaderCommon, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>D:\Program Files\SimHub\GameReaderCommon.dll</HintPath>
+      <HintPath>Thirdparty\Simhub_8.2.0\GameReaderCommon.dll</HintPath>
     </Reference>
-    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>D:\Program Files\SimHub\log4net.dll</HintPath>
+    <Reference Include="log4net, Version=2.0.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>packages\log4net.2.0.15\lib\net45\log4net.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="SimHub.Logging, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>D:\Program Files\SimHub\SimHub.Logging.dll</HintPath>
+      <HintPath>Thirdparty\Simhub_8.2.0\SimHub.Logging.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="SimHub.Plugins">
-      <HintPath>D:\Program Files\SimHub\SimHub.Plugins.dll</HintPath>
+      <HintPath>Thirdparty\Simhub_8.2.0\SimHub.Plugins.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
@@ -67,10 +68,17 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="F12020Structures\F12020\F12020Struct.cs" />
+    <Compile Include="F12020Structures\F12020\CarStatusData.cs" />
+    <Compile Include="F12020Structures\F12020\CarTelemetryData.cs" />
+    <Compile Include="F12020Structures\F12020\PacketCarStatusData.cs" />
+    <Compile Include="F12020Structures\F12020\LapData.cs" />
     <Compile Include="F12020Structures\F12020\MarshalZone.cs" />
+    <Compile Include="F12020Structures\F12020\PacketCarTelemetryData.cs" />
     <Compile Include="F12020Structures\F12020\PacketHeader.cs" />
+    <Compile Include="F12020Structures\F12020\PacketLapData.cs" />
+    <Compile Include="F12020Structures\F12020\PacketParticipantsData.cs" />
     <Compile Include="F12020Structures\F12020\PacketSessionData.cs" />
+    <Compile Include="F12020Structures\F12020\ParticipantData.cs" />
     <Compile Include="F12020Structures\F12020\WeatherForecastSample.cs" />
     <Compile Include="Packets\ParticipantDataPacket.cs" />
     <Compile Include="Packets\CarStatusDataPacket.cs" />
@@ -96,7 +104,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

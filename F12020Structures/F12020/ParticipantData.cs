@@ -2,55 +2,6 @@
 
 namespace SimHubToF12020UDP
 {
-    /*public unsafe struct FastestLap
-    {
-        public byte vehicleIdx; // Vehicle index of car achieving fastest lap
-        public float lapTime;    // Lap time is in seconds
-    }
-;
-
-    public unsafe struct Retirement
-    {
-        public byte vehicleIdx; // Vehicle index of car retiring
-    }
-;
-
-    public unsafe struct TeamMateInPits
-    {
-        public byte vehicleIdx; // Vehicle index of team mate
-    };
-
-    public unsafe struct RaceWinner
-    {
-        public byte vehicleIdx; // Vehicle index of the race winner
-    };
-
-    public unsafe struct Penalty
-    {
-
-        public byte penaltyType;          // Penalty type – see Appendices
-        public byte infringementType;     // Infringement type – see Appendices
-        public byte vehicleIdx;           // Vehicle index of the car the penalty is applied to
-        public byte otherVehicleIdx;      // Vehicle index of the other car involved
-        public byte time;                 // Time gained, or time spent doing action in seconds
-        public byte lapNum;               // Lap the penalty occurred on
-        public byte placesGained;         // Number of places gained by this
-    };
-
-    public unsafe struct SpeedTrap
-    {
-        public byte vehicleIdx; // Vehicle index of the vehicle triggering speed trap
-        public float speed;      // Top speed achieved in kilometres per hour
-    };
-
-    struct PacketEventData
-    {
-        PacketHeader    	m_header;             // Header
-
-        byte               	m_eventStringCode[4]; // Event string code, see below
-        EventDataDetails	m_eventDetails;       // Event details - should be interpreted differently
-                                                    // for each type
-    };*/
 
     public struct ParticipantData
     {
