@@ -92,7 +92,13 @@
     </Compile>
     <Compile Include="Front\SimHubToF12020UDP.cs" />
     <Compile Include="Servers\ExecuteMode.cs" />
+    <Compile Include="Servers\ILoggerService.cs" />
+    <Compile Include="Servers\ISendDataService.cs" />
+    <Compile Include="Servers\ITimeService.cs" />
     <Compile Include="Servers\LoopSessionData.cs" />
+    <Compile Include="Servers\SendDataToUdpClient.cs" />
+    <Compile Include="Servers\SimhubLogger.cs" />
+    <Compile Include="Servers\TimeService.cs" />
     <Compile Include="Servers\UDPServer.cs" />
   </ItemGroup>
   <ItemGroup>
