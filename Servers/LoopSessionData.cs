@@ -32,21 +32,31 @@ namespace SimHubToF12020UDP.Servers
 
                     try
                     {
-                        var sessionData = SessionDataPacket.Read();
+                        var sessionData = ReadSessionPacketData();
                         await SendDataAsync(sessionData);
                     }
                     catch (Exception ex)
                     {
-                        SimHub.Logging.Current.Error("Failed to send UDP packet\n" + ex);
+                        LogToSimhub("Failed to send UDP packet\n" + ex);
                     }
                 }
                 await WaitFor250Ms();
 
-                if(executeMode == ExecuteMode.Once)
+                if (executeMode == ExecuteMode.Once)
                 {
                     break;
                 }
             }
+        }
+
+        protected virtual void LogToSimhub(string message)
+        {
+            SimHub.Logging.Current.Error(message);
+        }
+
+        protected virtual byte[] ReadSessionPacketData()
+        {
+            return SessionDataPacket.Read();
         }
 
         protected virtual async Task WaitFor250Ms()
@@ -64,4 +74,7 @@ namespace SimHubToF12020UDP.Servers
             return DateTime.Now.Subtract(timer).TotalMilliseconds;
         }
     }
+
 }
+
+
