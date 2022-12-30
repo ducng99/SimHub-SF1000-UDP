@@ -6,7 +6,6 @@ namespace SimHubToF12020UDP.Servers
 {
     public class OneLoopSessionData
     {
-        private const int Delta500Ms = 500;
         private const int Delta250Ms = 250;
 
         private readonly UdpClient udpClient;
@@ -16,6 +15,8 @@ namespace SimHubToF12020UDP.Servers
         private readonly ITimeService timeService;
         private readonly ISendDataService sendDataService;
         private readonly IReadDataService readDataService;
+        private readonly int deltaToEnterSendingLoop;
+        private readonly int waitLoopInterval;
         private readonly ITaskSequencerService taskSequencerService;
 
         public OneLoopSessionData(UdpClient udpClient,
@@ -23,16 +24,22 @@ namespace SimHubToF12020UDP.Servers
             ILoggerService loggerService,
             ITimeService timeService,
             ISendDataService sendDataService,
-            IReadDataService readDataService, 
-            ITaskSequencerService taskSequencerService)
+            ITaskSequencerService taskSequencerService,
+            IReadDataService readDataService,
+            int deltaToEnterSendingLoop, 
+            int waitLoopInterval)
         {
             this.udpClient = udpClient;
             this.executeMode = executeMode;
             this.loggerService = loggerService;
             this.timeService = timeService;
             this.sendDataService = sendDataService;
-            this.readDataService = readDataService;
             this.taskSequencerService = taskSequencerService;
+            
+            // Specific to session data
+            this.readDataService = readDataService;
+            this.deltaToEnterSendingLoop = deltaToEnterSendingLoop;
+            this.waitLoopInterval = waitLoopInterval;
         }
 
         public async void LoopSessionData()
@@ -43,7 +50,7 @@ namespace SimHubToF12020UDP.Servers
             {
                 var deltaTime = timeService.GetDeltaTime(timer);
 
-                if (deltaTime >= Delta500Ms)
+                if (deltaTime >= deltaToEnterSendingLoop)
                 {
                     timer = timeService.Now();
 
@@ -58,7 +65,7 @@ namespace SimHubToF12020UDP.Servers
                     }
                 }
 
-                await taskSequencerService.WaitFor(Delta250Ms);
+                await taskSequencerService.WaitFor(waitLoopInterval);
 
                 if (executeMode == ExecuteMode.Once)
                 {

@@ -92,14 +92,14 @@
     </Compile>
     <Compile Include="Front\SimHubToF12020UDP.cs" />
     <Compile Include="Servers\ExecuteMode.cs" />
-    <Compile Include="Servers\TechnicalServices\ILoggerService.cs" />
-    <Compile Include="Servers\TechnicalServices\IReadDataService.cs" />
-    <Compile Include="Servers\TechnicalServices\ISendDataService.cs" />
-    <Compile Include="Servers\TechnicalServices\ITaskSequencerService.cs" />
+    <Compile Include="Servers\ILoggerService.cs" />
+    <Compile Include="Servers\IReadDataService.cs" />
+    <Compile Include="Servers\ISendDataService.cs" />
+    <Compile Include="Servers\ITaskSequencerService.cs" />
     <Compile Include="Servers\Business\ITimeService.cs" />
     <Compile Include="Servers\LoopSessionData.cs" />
     <Compile Include="Servers\ReadSessionData.cs" />
-    <Compile Include="Servers\SendDataToUdpClient.cs" />
+    <Compile Include="Servers\TechnicalServices\SendDataToUdpClient.cs" />
     <Compile Include="Servers\TechnicalServices\SimhubLogger.cs" />
     <Compile Include="Servers\TechnicalServices\TaskSequencerService.cs" />
     <Compile Include="Servers\Business\TimeService.cs" />
