@@ -75,10 +75,5 @@ namespace SimHubToF12020UDP.Servers
         {
             await udpClient.SendAsync(sessionData, sessionData.Length, sender);
         }
-
-        protected virtual double GetDeltaTime(DateTime timer)
-        {
-            return DateTime.Now.Subtract(timer).TotalMilliseconds;
-        }
     }
 }
