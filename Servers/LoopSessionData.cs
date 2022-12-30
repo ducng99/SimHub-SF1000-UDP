@@ -46,6 +46,10 @@ namespace SimHubToF12020UDP.Servers
         {
             var timer = timeService.Now();
 
+            /**
+             * Thought: We should have a way to stop the loop when running.
+             * */
+
             while (udpClient != null)
             {
                 var deltaTime = timeService.GetDeltaTime(timer);
