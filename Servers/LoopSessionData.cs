@@ -64,10 +64,4 @@ namespace SimHubToF12020UDP.Servers
             return DateTime.Now.Subtract(timer).TotalMilliseconds;
         }
     }
-
-    public enum ExecuteMode
-    {
-        Infinite = 0,
-        Once = 1
-    }
 }

@@ -91,6 +91,7 @@
       <DependentUpon>SettingsControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Front\SimHubToF12020UDP.cs" />
+    <Compile Include="Servers\ExecuteMode.cs" />
     <Compile Include="Servers\LoopSessionData.cs" />
     <Compile Include="Servers\UDPServer.cs" />
   </ItemGroup>
