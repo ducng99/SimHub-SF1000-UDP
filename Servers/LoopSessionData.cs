@@ -10,12 +10,15 @@ namespace SimHubToF12020UDP.Servers
     {
         private readonly UdpClient udpClient;
         private readonly ExecuteMode executeMode;
+        private readonly ILoggerService loggerService;
         private IPEndPoint sender;
         public OneLoopSessionData(UdpClient udpClient,
-            ExecuteMode executeMode)
+            ExecuteMode executeMode, 
+            ILoggerService loggerService)
         {
             this.udpClient = udpClient;
             this.executeMode = executeMode;
+            this.loggerService = loggerService;
         }
 
         public async void LoopSessionData()
@@ -37,7 +40,7 @@ namespace SimHubToF12020UDP.Servers
                     }
                     catch (Exception ex)
                     {
-                        LogToSimhub("Failed to send UDP packet\n" + ex);
+                        loggerService.Error("Failed to send UDP packet\n" + ex);
                     }
                 }
                 await WaitFor250Ms();
@@ -47,11 +50,6 @@ namespace SimHubToF12020UDP.Servers
                     break;
                 }
             }
-        }
-
-        protected virtual void LogToSimhub(string message)
-        {
-            SimHub.Logging.Current.Error(message);
         }
 
         protected virtual byte[] ReadSessionPacketData()
@@ -74,7 +72,4 @@ namespace SimHubToF12020UDP.Servers
             return DateTime.Now.Subtract(timer).TotalMilliseconds;
         }
     }
-
 }
-
-
