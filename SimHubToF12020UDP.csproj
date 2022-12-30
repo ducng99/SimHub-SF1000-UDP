@@ -85,12 +85,12 @@
     <Compile Include="Packets\CarTelemetryDataPacket.cs" />
     <Compile Include="Packets\LapDataPacket.cs" />
     <Compile Include="Packets\SessionDataPacket.cs" />
-    <Compile Include="SimHubToF12020UDPSettings.cs" />
+    <Compile Include="Front\SimHubToF12020UDPSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SettingsControlDemo.xaml.cs">
-      <DependentUpon>SettingsControlDemo.xaml</DependentUpon>
+    <Compile Include="Front\SettingsControl.cs">
+      <DependentUpon>SettingsControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SimHubToF12020UDP.cs" />
+    <Compile Include="Front\SimHubToF12020UDP.cs" />
     <Compile Include="Servers\UDPServer.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -99,7 +99,7 @@
       <Generator>MSBuild:Compile</Generator>
       <ContainsDesignTimeResources>true</ContainsDesignTimeResources>
     </Page>
-    <Page Include="SettingsControlDemo.xaml">
+    <Page Include="Front\SettingsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

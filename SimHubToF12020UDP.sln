@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Éléments de solution", "�
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimhubToF12020.UdpServer.Tests", "..\SimhubToF12020.UdpServer.Tests\SimhubToF12020.UdpServer.Tests.csproj", "{F854BCA7-B3DD-48B0-A4DE-6CDC4318B661}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +22,10 @@ Global
 		{833040C9-FE5E-4CCF-B21D-71979E049B6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{833040C9-FE5E-4CCF-B21D-71979E049B6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{833040C9-FE5E-4CCF-B21D-71979E049B6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F854BCA7-B3DD-48B0-A4DE-6CDC4318B661}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F854BCA7-B3DD-48B0-A4DE-6CDC4318B661}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F854BCA7-B3DD-48B0-A4DE-6CDC4318B661}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F854BCA7-B3DD-48B0-A4DE-6CDC4318B661}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

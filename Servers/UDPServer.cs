@@ -50,7 +50,7 @@ namespace SimHubToF12020UDPPlugin
             Instance = null;
         }
 
-        private UDPServer()
+        public UDPServer()
         {
             udpClient = new();
         }
