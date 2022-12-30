@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
-using System.Threading.Tasks;
-using SimHubToF12020UDP.Packets;
 
 namespace SimHubToF12020UDP.Servers
 {
@@ -10,24 +8,31 @@ namespace SimHubToF12020UDP.Servers
     {
         private const int Delta500Ms = 500;
         private const int Delta250Ms = 250;
+
         private readonly UdpClient udpClient;
         private readonly ExecuteMode executeMode;
+
         private readonly ILoggerService loggerService;
         private readonly ITimeService timeService;
         private readonly ISendDataService sendDataService;
-        private IPEndPoint sender;
+        private readonly IReadDataService readDataService;
+        private readonly ITaskSequencerService taskSequencerService;
 
         public OneLoopSessionData(UdpClient udpClient,
             ExecuteMode executeMode,
             ILoggerService loggerService,
             ITimeService timeService,
-            ISendDataService sendDataService)
+            ISendDataService sendDataService,
+            IReadDataService readDataService, 
+            ITaskSequencerService taskSequencerService)
         {
             this.udpClient = udpClient;
             this.executeMode = executeMode;
             this.loggerService = loggerService;
             this.timeService = timeService;
             this.sendDataService = sendDataService;
+            this.readDataService = readDataService;
+            this.taskSequencerService = taskSequencerService;
         }
 
         public async void LoopSessionData()
@@ -44,7 +49,7 @@ namespace SimHubToF12020UDP.Servers
 
                     try
                     {
-                        var sessionData = ReadSessionPacketData();
+                        var sessionData = readDataService.ReadPacketData();
                         await sendDataService.SendDataAsync(sessionData);
                     }
                     catch (Exception ex)
@@ -52,28 +57,14 @@ namespace SimHubToF12020UDP.Servers
                         loggerService.Error("Failed to send UDP packet\n" + ex);
                     }
                 }
-                await WaitFor250Ms();
+
+                await taskSequencerService.WaitFor(Delta250Ms);
 
                 if (executeMode == ExecuteMode.Once)
                 {
                     break;
                 }
             }
-        }
-
-        protected virtual byte[] ReadSessionPacketData()
-        {
-            return SessionDataPacket.Read();
-        }
-
-        protected virtual async Task WaitFor250Ms()
-        {
-            await Task.Delay(Delta250Ms);
-        }
-
-        protected virtual async Task SendDataAsync(byte[] sessionData)
-        {
-            await udpClient.SendAsync(sessionData, sessionData.Length, sender);
         }
     }
 }
