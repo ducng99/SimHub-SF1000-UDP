@@ -11,27 +11,30 @@ namespace SimHubToF12020UDP.Servers
         private readonly UdpClient udpClient;
         private readonly ExecuteMode executeMode;
         private readonly ILoggerService loggerService;
+        private readonly ITimeService timeService;
         private IPEndPoint sender;
         public OneLoopSessionData(UdpClient udpClient,
-            ExecuteMode executeMode, 
-            ILoggerService loggerService)
+            ExecuteMode executeMode,
+            ILoggerService loggerService, 
+            ITimeService timeService)
         {
             this.udpClient = udpClient;
             this.executeMode = executeMode;
             this.loggerService = loggerService;
+            this.timeService = timeService;
         }
 
         public async void LoopSessionData()
         {
-            var timer = DateTime.Now;
+            var timer = timeService.Now();
 
             while (udpClient != null)
             {
-                var deltaTime = GetDeltaTime(timer);
+              var  deltaTime = timeService.GetDeltaTime(timer);
 
                 if (deltaTime >= 500)
                 {
-                    timer = DateTime.Now;
+                    timer = timeService.Now();
 
                     try
                     {
