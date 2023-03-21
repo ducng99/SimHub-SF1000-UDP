@@ -41,7 +41,7 @@ namespace SimHubToF12020UDP.Packets
                 m_weather = 0,
                 m_trackTemperature = Convert.ToSByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.RoadTemperature")),
                 m_airTemperature = Convert.ToSByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.AirTemperature")),
-                m_totalLaps = Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TotalLaps")),
+                m_totalLaps = Utils.ClampByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TotalLaps")),
                 m_trackLength = Convert.ToUInt16(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TrackLength")),
                 m_sessionType = 0,
                 m_trackId = -1,
