@@ -41,34 +41,34 @@ namespace SimHubToF12020UDP.Packets
                 m_lapData = new LapData[22]
             };
 
-            float lapDistance = (float)(Convert.ToDouble(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TrackPositionPercent")) * Convert.ToDouble(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TrackLength")));
-            float totalDistance = lapDistance + Convert.ToUInt16(pluginManager.GetPropertyValue("DataCorePlugin.GameData.CompletedLaps")) * Convert.ToUInt16(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TrackLength"));
-            byte pitStatus = (byte)(Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.IsInPit")) == 1 ? 2 : Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.IsInPitLane")));
+            float lapDistance = Utils.ClampFloatingValue<float>(Convert.ToDouble(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TrackPositionPercent")) * Convert.ToDouble(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TrackLength")));
+            float totalDistance = lapDistance + Utils.ClampIntegerValue<ushort>(pluginManager.GetPropertyValue("DataCorePlugin.GameData.CompletedLaps")) * Utils.ClampIntegerValue<ushort>(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TrackLength"));
+            byte pitStatus = Utils.ClampIntegerValue<byte>(pluginManager.GetPropertyValue("DataCorePlugin.GameData.IsInPit")) == 1 ? (byte)2 : Utils.ClampIntegerValue<byte>(pluginManager.GetPropertyValue("DataCorePlugin.GameData.IsInPitLane"));
 
             packet.m_lapData[0] = new LapData
             {
-                m_lastLapTime = (float)((TimeSpan)(pluginManager.GetPropertyValue("DataCorePlugin.GameData.LastLapTime") ?? new TimeSpan())).TotalSeconds,
-                m_currentLapTime = (float)((TimeSpan)(pluginManager.GetPropertyValue("DataCorePlugin.GameData.CurrentLapTime") ?? new TimeSpan())).TotalSeconds,
-                m_sector1TimeInMS = (ushort)((TimeSpan)(pluginManager.GetPropertyValue("DataCorePlugin.GameData.Sector1Time") ?? new TimeSpan())).TotalMilliseconds,
-                m_sector2TimeInMS = (ushort)((TimeSpan)(pluginManager.GetPropertyValue("DataCorePlugin.GameData.Sector2Time") ?? new TimeSpan())).TotalMilliseconds,
-                m_bestLapTime = (float)((TimeSpan)(pluginManager.GetPropertyValue("DataCorePlugin.GameData.BestLapTime") ?? new TimeSpan())).TotalSeconds,
+                m_lastLapTime = Utils.ClampFloatingValue<float>(((TimeSpan)(pluginManager.GetPropertyValue("DataCorePlugin.GameData.LastLapTime") ?? new TimeSpan())).TotalSeconds),
+                m_currentLapTime = Utils.ClampFloatingValue<float>(((TimeSpan)(pluginManager.GetPropertyValue("DataCorePlugin.GameData.CurrentLapTime") ?? new TimeSpan())).TotalSeconds),
+                m_sector1TimeInMS = Utils.ClampIntegerValue<ushort>(((TimeSpan)(pluginManager.GetPropertyValue("DataCorePlugin.GameData.Sector1Time") ?? new TimeSpan())).TotalMilliseconds),
+                m_sector2TimeInMS = Utils.ClampIntegerValue<ushort>(((TimeSpan)(pluginManager.GetPropertyValue("DataCorePlugin.GameData.Sector2Time") ?? new TimeSpan())).TotalMilliseconds),
+                m_bestLapTime = Utils.ClampFloatingValue<float>(((TimeSpan)(pluginManager.GetPropertyValue("DataCorePlugin.GameData.BestLapTime") ?? new TimeSpan())).TotalSeconds),
                 m_bestLapNum = 0,
-                m_bestLapSector1TimeInMS = (ushort)((TimeSpan)(pluginManager.GetPropertyValue("DataCorePlugin.GameData.Sector1BestLapTime") ?? new TimeSpan())).TotalMilliseconds,
-                m_bestLapSector2TimeInMS = (ushort)((TimeSpan)(pluginManager.GetPropertyValue("DataCorePlugin.GameData.Sector2BestLapTime") ?? new TimeSpan())).TotalMilliseconds,
-                m_bestLapSector3TimeInMS = (ushort)((TimeSpan)(pluginManager.GetPropertyValue("DataCorePlugin.GameData.Sector3BestLapTime") ?? new TimeSpan())).TotalMilliseconds,
-                m_bestOverallSector1TimeInMS = (ushort)((TimeSpan)(pluginManager.GetPropertyValue("DataCorePlugin.GameData.Sector1BestTime") ?? new TimeSpan())).TotalMilliseconds,
+                m_bestLapSector1TimeInMS = Utils.ClampIntegerValue<ushort>(((TimeSpan)(pluginManager.GetPropertyValue("DataCorePlugin.GameData.Sector1BestLapTime") ?? new TimeSpan())).TotalMilliseconds),
+                m_bestLapSector2TimeInMS = Utils.ClampIntegerValue<ushort>(((TimeSpan)(pluginManager.GetPropertyValue("DataCorePlugin.GameData.Sector2BestLapTime") ?? new TimeSpan())).TotalMilliseconds),
+                m_bestLapSector3TimeInMS = Utils.ClampIntegerValue<ushort>(((TimeSpan)(pluginManager.GetPropertyValue("DataCorePlugin.GameData.Sector3BestLapTime") ?? new TimeSpan())).TotalMilliseconds),
+                m_bestOverallSector1TimeInMS = Utils.ClampIntegerValue<ushort>(((TimeSpan)(pluginManager.GetPropertyValue("DataCorePlugin.GameData.Sector1BestTime") ?? new TimeSpan())).TotalMilliseconds),
                 m_bestOverallSector1LapNum = 0,
-                m_bestOverallSector2TimeInMS = (ushort)((TimeSpan)(pluginManager.GetPropertyValue("DataCorePlugin.GameData.Sector2BestTime") ?? new TimeSpan())).TotalMilliseconds,
+                m_bestOverallSector2TimeInMS = Utils.ClampIntegerValue<ushort>(((TimeSpan)(pluginManager.GetPropertyValue("DataCorePlugin.GameData.Sector2BestTime") ?? new TimeSpan())).TotalMilliseconds),
                 m_bestOverallSector2LapNum = 0,
-                m_bestOverallSector3TimeInMS = (ushort)((TimeSpan)(pluginManager.GetPropertyValue("DataCorePlugin.GameData.Sector3BestTime") ?? new TimeSpan())).TotalMilliseconds,
+                m_bestOverallSector3TimeInMS = Utils.ClampIntegerValue<ushort>(((TimeSpan)(pluginManager.GetPropertyValue("DataCorePlugin.GameData.Sector3BestTime") ?? new TimeSpan())).TotalMilliseconds),
                 m_bestOverallSector3LapNum = 0,
                 m_lapDistance = lapDistance,
                 m_totalDistance = totalDistance,
                 m_safetyCarDelta = 0,
-                m_carPosition = Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.Position")),
-                m_currentLapNum = Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.CurrentLap")),
+                m_carPosition = Utils.ClampIntegerValue<byte>(pluginManager.GetPropertyValue("DataCorePlugin.GameData.Position")),
+                m_currentLapNum = Utils.ClampIntegerValue<byte>(pluginManager.GetPropertyValue("DataCorePlugin.GameData.CurrentLap")),
                 m_pitStatus = pitStatus,
-                m_sector = Convert.ToByte(pluginManager.GetPropertyValue("DataCorePlugin.GameData.CurrentSectorIndex")),
+                m_sector = Utils.ClampIntegerValue<byte>(pluginManager.GetPropertyValue("DataCorePlugin.GameData.CurrentSectorIndex")),
                 m_currentLapInvalid = 0,
                 m_penalties = 0,
                 m_gridPosition = 1,

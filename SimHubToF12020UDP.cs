@@ -57,6 +57,7 @@ namespace SimHubToF12020UDPPlugin
             if (!F1gameMatch.IsMatch(pluginManager.GameName))
             {
                 UDPServer.Instance.Init();
+                SimHub.Logging.Current.Info("UDP Server running...");
             }
         }
     }
