@@ -6,6 +6,7 @@ This project is mainly for SF1000 wheel to work on other games.
 The data is fetched from SimHub without any other plugins so it is limited. Some functionalities on the wheel is not available
 
 ## Installation
+- Download [latest SimHub](https://www.simhubdash.com/download-2/)
 - Download [latest release](https://github.com/ducng99/SimHub-to-F12020-UDP/releases/latest)
 - Extract the .dll file to SimHub folder
 - Start SimHub and enable the plugin
