@@ -86,7 +86,7 @@ namespace SimHubToF12020UDPPlugin
                     }
                     catch (Exception ex)
                     {
-                        SimHub.Logging.Current.Error("Failed to send UDP packet\n" + ex);
+                        SimHub.Logging.Current.Error("Failed sending UDP packet\n" + ex);
                     }
                 }
 
@@ -113,7 +113,7 @@ namespace SimHubToF12020UDPPlugin
                     }
                     catch (Exception ex)
                     {
-                        SimHub.Logging.Current.Error("Failed to send UDP packet\n" + ex);
+                        SimHub.Logging.Current.Error("Failed sending UDP packet\n" + ex);
                     }
                 }
 
@@ -140,7 +140,7 @@ namespace SimHubToF12020UDPPlugin
                     }
                     catch (Exception ex)
                     {
-                        SimHub.Logging.Current.Error("Failed to send UDP packet\n" + ex);
+                        SimHub.Logging.Current.Error("Failed sending UDP packet\n" + ex);
                     }
                 }
 
@@ -167,7 +167,7 @@ namespace SimHubToF12020UDPPlugin
                     }
                     catch (Exception ex)
                     {
-                        SimHub.Logging.Current.Error("Failed to send UDP packet\n" + ex);
+                        SimHub.Logging.Current.Error("Failed sending UDP packet\n" + ex);
                     }
                 }
 
@@ -194,7 +194,7 @@ namespace SimHubToF12020UDPPlugin
                     }
                     catch (Exception ex)
                     {
-                        SimHub.Logging.Current.Error("Failed to send UDP packet\n" + ex);
+                        SimHub.Logging.Current.Error("Failed sending UDP packet\n" + ex);
                     }
                 }
 
