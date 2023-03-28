@@ -5,6 +5,12 @@ VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimHubToF12020UDP", "SimHubToF12020UDP\SimHubToF12020UDP.csproj", "{833040C9-FE5E-4CCF-B21D-71979E049B6B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6D10350D-4818-4B98-B4DA-BF5344A52798}"
+	ProjectSection(SolutionItems) = preProject
+		DeployToSimhub.ps1 = DeployToSimhub.ps1
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
