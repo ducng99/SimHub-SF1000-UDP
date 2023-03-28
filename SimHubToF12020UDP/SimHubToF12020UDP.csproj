@@ -67,7 +67,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="F12020Struct.cs" />
+    <Compile Include="DataStructures\F12020Struct.cs" />
     <Compile Include="Packets\ParticipantDataPacket.cs" />
     <Compile Include="Packets\CarStatusDataPacket.cs" />
     <Compile Include="Packets\CarTelemetryDataPacket.cs" />

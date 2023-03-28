@@ -1,4 +1,5 @@
 ﻿using SimHub.Plugins;
+using SimHubToF12020UDP.DataStructures;
 using System;
 using System.Runtime.InteropServices;
 
