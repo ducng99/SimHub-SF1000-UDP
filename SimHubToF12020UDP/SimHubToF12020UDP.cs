@@ -1,5 +1,4 @@
-﻿using GameReaderCommon;
-using SimHub.Plugins;
+﻿using SimHub.Plugins;
 using System.Text.RegularExpressions;
 
 namespace SimHubToF12020UDPPlugin

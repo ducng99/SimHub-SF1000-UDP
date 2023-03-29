@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -62,6 +62,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataStructures\CarMotionData.cs" />
     <Compile Include="DataStructures\CarStatusData.cs" />
     <Compile Include="DataStructures\CarTelemetryData.cs" />
     <Compile Include="DataStructures\F12020Struct.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="DataStructures\PacketCarTelemetryData.cs" />
     <Compile Include="DataStructures\PacketHeader.cs" />
     <Compile Include="DataStructures\PacketLapData.cs" />
+    <Compile Include="DataStructures\PacketMotionData.cs" />
     <Compile Include="DataStructures\PacketParticipantsData.cs" />
     <Compile Include="DataStructures\PacketSessionData.cs" />
     <Compile Include="DataStructures\ParticipantData.cs" />

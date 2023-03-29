@@ -1,6 +1,4 @@
-﻿using System.Runtime.InteropServices;
-
-namespace SimHubToF12020UDP.DataStructures;
+﻿namespace SimHubToF12020UDP.DataStructures;
 
 
 
