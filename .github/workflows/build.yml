@@ -25,8 +25,7 @@ jobs:
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v1.1
 
-    # Restore the application to populate the obj folder with RuntimeIdentifiers
-    - name: Restore the application
+    - name: Build plugin DLL file
       run: msbuild /p:Configuration=Release
 
     - name: Zip output DLL file
