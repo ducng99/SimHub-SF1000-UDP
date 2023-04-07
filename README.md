@@ -24,9 +24,9 @@ Here is a hint:
 
 ![image](https://user-images.githubusercontent.com/49080794/226587920-0c0df4ba-760d-48c6-ac06-f9c4c73d8e24.png)
 
-- In SimHub, go to `Additional plugins` -> `F12020 UDP Broadcast` tab -> Enter the IP above -> Click `Save`
+- In SimHub, go to `Additional plugins` -> `SimHub To F12020 UDP` tab -> Enter the IP above in "New IP" section -> Click `Save`
 
-![image](https://user-images.githubusercontent.com/49080794/226588749-75a1cd0d-40b3-46c6-8a01-9af35eaa0589.png)
+![image](https://user-images.githubusercontent.com/49080794/230552482-ff71c17a-f543-420e-8751-8ff05984a77a.png)
 
 - Start your game and the wheel should show data.
 
