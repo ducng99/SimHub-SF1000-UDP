@@ -6,9 +6,15 @@ on:
     - 'v*'
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: windows-latest
+    
+    env:
+      ReleaseFileName: SimHubToF12020UDP_${{ github.ref_name }}.zip
 
     steps:
     - name: Checkout
@@ -21,12 +27,12 @@ jobs:
 
     # Restore the application to populate the obj folder with RuntimeIdentifiers
     - name: Restore the application
-      run: msbuild /p:Configuration=Release -ds:false
+      run: msbuild /p:Configuration=Release
 
     - name: Zip output DLL file
-      run: Compress-Archive ./SimHubToF12020UDP/bin/Release/SimHubToF12020UDP.dll SimHubToF12020UDP_${{ github.ref }}.zip
-      
-    - uses: actions/upload-artifact@v3
+      run: Compress-Archive -Path ./SimHubToF12020UDP/bin/Release/SimHubToF12020UDP.dll -DestinationPath ./${{ env.ReleaseFileName }}
+    
+    - name: Create release
+      uses: softprops/action-gh-release@v1
       with:
-        name: release-build
-        path: SimHubToF12020UDP_${{ github.ref }}.zip
+        files: ${{ env.ReleaseFileName }}
