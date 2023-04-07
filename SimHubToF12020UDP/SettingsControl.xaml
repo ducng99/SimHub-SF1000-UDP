@@ -20,7 +20,7 @@
                     <TextBlock Margin="0 8 5 0">New IP:</TextBlock>
                     <ui:IPMaskedTextBox HorizontalAlignment="Left" Name="ReceiverIP" />
                     <TextBlock Margin="5 8 5 0">Port:</TextBlock>
-                    <TextBox Name="ReceiverPort">20777</TextBox>
+                    <TextBox Name="ReceiverPort" KeyDown="ReceiverPort_KeyDown">20777</TextBox>
                 </StackPanel>
                 <styles:SHButtonPrimary HorizontalAlignment="Left" Content="Save" Click="SHButtonPrimary_Click"/>
             </StackPanel>

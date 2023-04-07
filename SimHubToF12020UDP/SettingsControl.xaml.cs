@@ -1,11 +1,9 @@
 ﻿using SimHubToF12020UDP;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace SimHubToF12020UDPPlugin
 {
-    /// <summary>
-    /// Logique d'interaction pour SettingsControlDemo.xaml
-    /// </summary>
     public partial class SettingsControl : UserControl
     {
         public SimHubToF12020UDP Plugin { get; }
@@ -13,16 +11,6 @@ namespace SimHubToF12020UDPPlugin
         public SettingsControl()
         {
             InitializeComponent();
-
-            ReceiverPort.KeyDown += ReceiverPort_KeyDown;
-        }
-
-        private void ReceiverPort_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            if ((e.Key < System.Windows.Input.Key.D0 || e.Key > System.Windows.Input.Key.D9) && (e.Key < System.Windows.Input.Key.NumPad0 || e.Key > System.Windows.Input.Key.NumPad9))
-            {
-                e.Handled = true;
-            }
         }
 
         public SettingsControl(SimHubToF12020UDP plugin) : this()
@@ -49,6 +37,14 @@ namespace SimHubToF12020UDPPlugin
             Display_Port.Text = Plugin.Settings.ReceiverPort.ToString();
 
             UDPServer.Instance.UpdateIPAddress(ReceiverIP.IPAddress, Plugin.Settings.ReceiverPort);
+        }
+
+        private void ReceiverPort_KeyDown(object sender, KeyEventArgs e)
+        {
+            if ((e.Key < Key.D0 || e.Key > Key.D9) && (e.Key < Key.NumPad0 || e.Key > Key.NumPad9))
+            {
+                e.Handled = true;
+            }
         }
     }
 }
