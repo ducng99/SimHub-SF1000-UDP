@@ -14,23 +14,11 @@ namespace SimHubToF12020UDPPlugin
 
         private Task[] RunningTasks = new Task[0];
 
-        public IPAddress ReceiverIP
-        {
-            private get { return null; }
-            set
-            {
-                sender = new(value, 20777);
-            }
-        }
-
         public static UDPServer Instance
         {
             get
             {
-                if (_instance == null)
-                {
-                    _instance = new UDPServer();
-                }
+                _instance ??= new UDPServer();
                 return _instance;
             }
             private set
@@ -52,6 +40,11 @@ namespace SimHubToF12020UDPPlugin
         private UDPServer()
         {
             udpClient = new();
+        }
+
+        public void UpdateIPAddress(IPAddress ipAddress, int port)
+        {
+            sender = new(ipAddress, port);
         }
 
         public void Init()
