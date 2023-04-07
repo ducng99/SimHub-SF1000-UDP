@@ -1,4 +1,5 @@
 ﻿using SimHubToF12020UDP;
+using System.Reflection;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -11,6 +12,7 @@ namespace SimHubToF12020UDPPlugin
         public SettingsControl()
         {
             InitializeComponent();
+            HeaderSection.Title = "SimHub To F12020 UDP v" + Assembly.GetExecutingAssembly().GetName().Version.ToString(3);
         }
 
         public SettingsControl(SimHubToF12020UDP plugin) : this()

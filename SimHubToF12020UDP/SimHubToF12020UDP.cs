@@ -3,9 +3,9 @@ using System.Text.RegularExpressions;
 
 namespace SimHubToF12020UDPPlugin
 {
-    [PluginDescription("Broadcast UDP data in F1 2020 format. Used for Thrustmasters SF1000 wheel")]
+    [PluginDescription("Broadcast UDP data in F1 2020 format. Used for Thrustmasters™ SF1000 wheel")]
     [PluginAuthor("Maxhyt")]
-    [PluginName("F12020 UDP Broadcast")]
+    [PluginName("SimHub To F12020 UDP")]
     public class SimHubToF12020UDP : IPlugin, IWPFSettings
     {
         public SimHubToF12020UDPSettings Settings;
