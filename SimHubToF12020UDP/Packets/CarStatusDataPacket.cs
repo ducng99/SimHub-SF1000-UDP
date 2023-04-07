@@ -83,10 +83,34 @@ namespace SimHubToF12020UDP.Packets
                 m_vehicleFiaFlags = GetFlag(pluginManager),
                 m_ersStoreEnergy = Utils.ClampFloatingValue<float>(pluginManager.GetPropertyValue("DataCorePlugin.GameData.ERSStored")),
                 m_ersDeployMode = 1,
-                m_ersHarvestedThisLapMGUK = 0,
-                m_ersHarvestedThisLapMGUH = 0,
-                m_ersDeployedThisLap = 0
+                m_ersHarvestedThisLapMGUK = 100f,
+                m_ersHarvestedThisLapMGUH = 1f,
+                m_ersDeployedThisLap = 100f
             };
+
+            if (pluginManager.GameName == "AssettoCorsa")
+            {
+                packet.m_carStatusData[0].m_ersDeployedThisLap = 100 - (Utils.ClampFloatingValue<float>(pluginManager.GetPropertyValue("DataCorePlugin.GameRawData.Physics.KersCurrentKJ")) * 100000 / Utils.ClampFloatingValue<float>(pluginManager.GetPropertyValue("DataCorePlugin.GameRawData.StaticInfo.ErsMaxJ")));
+
+                byte ersMode;
+                if (Utils.ClampIntegerValue<byte>(pluginManager.GetPropertyValue("DataCorePlugin.GameRawData.Physics.KersInput")) == 1)
+                {
+                    ersMode = 2;
+                }
+                else
+                {
+                    ersMode = Utils.ClampIntegerValue<byte>(pluginManager.GetPropertyValue("DataCorePlugin.GameRawData.Physics.ErsPowerLevel"));
+                    ersMode = ersMode switch
+                    {
+                        1 or 2 => 1,
+                        3 => 2,
+                        4 or 5 => 3,
+                        _ => 0,
+                    };
+                }
+
+                packet.m_carStatusData[0].m_ersDeployMode = ersMode;
+            }
 
             int size = Marshal.SizeOf(packet);
             byte[] arr = new byte[size];
