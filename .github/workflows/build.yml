@@ -1,0 +1,32 @@
+name: Build
+
+on:
+  push:
+    tags: 
+    - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1.1
+
+    # Restore the application to populate the obj folder with RuntimeIdentifiers
+    - name: Restore the application
+      run: msbuild /p:Configuration=Release -ds:false
+
+    - name: Zip output DLL file
+      run: Compress-Archive ./SimHubToF12020UDP/bin/Release/SimHubToF12020UDP.dll SimHubToF12020UDP_${{ github.ref }}.zip
+      
+    - uses: actions/upload-artifact@v3
+      with:
+        name: release-build
+        path: SimHubToF12020UDP_${{ github.ref }}.zip
