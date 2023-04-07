@@ -1,4 +1,6 @@
 # SimHub-to-F12020-UDP
+[![Build](https://github.com/ducng99/SimHub-to-F12020-UDP/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/ducng99/SimHub-to-F12020-UDP/actions/workflows/build.yml)
+
 From SimHub app, the plugin will send UDP packets containing data in [F1 2020 format](https://web.archive.org/web/20221127112921/https://forums.codemasters.com/topic/50942-f1-2020-udp-specification/).
 
 This project is mainly for SF1000 wheel to work on other games.
