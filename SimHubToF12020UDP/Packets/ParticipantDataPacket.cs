@@ -39,7 +39,7 @@ namespace SimHubToF12020UDP.Packets
             var packet = new PacketParticipantsData
             {
                 m_header = header,
-                m_numActiveCars = Utils.ClampIntegerValue<byte>(pluginManager.GetPropertyValue("DataCorePlugin.GameData.OpponentsCount")),
+                m_numActiveCars = Utils.ClampIntegerValue<byte>(pluginManager.LastData?.NewData?.OpponentsCount),
                 m_participants = new ParticipantData[22]
             };
 

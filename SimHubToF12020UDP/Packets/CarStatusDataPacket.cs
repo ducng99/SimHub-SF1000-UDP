@@ -44,35 +44,35 @@ namespace SimHubToF12020UDP.Packets
 
             packet.m_carStatusData[0] = new CarStatusData
             {
-                m_tractionControl = Utils.ClampIntegerValue<byte>(Math.Min(Utils.ClampIntegerValue<int>(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TCLevel")), 2)),
-                m_antiLockBrakes = Utils.ClampIntegerValue<byte>(Math.Min(Utils.ClampIntegerValue<int>(pluginManager.GetPropertyValue("DataCorePlugin.GameData.ABSLevel")), 1)),
+                m_tractionControl = Utils.ClampIntegerValue<byte>(Math.Min(Utils.ClampIntegerValue<int>(pluginManager.LastData?.NewData?.TCLevel), 2)),
+                m_antiLockBrakes = Utils.ClampIntegerValue<byte>(Math.Min(Utils.ClampIntegerValue<int>(pluginManager.LastData?.NewData?.ABSLevel), 1)),
                 m_fuelMix = 1,
-                m_frontBrakeBias = Utils.ClampIntegerValue<byte>(pluginManager.GetPropertyValue("DataCorePlugin.GameData.BrakeBias")),
-                m_pitLimiterStatus = Utils.ClampIntegerValue<byte>(pluginManager.GetPropertyValue("DataCorePlugin.GameData.PitLimiterOn")),
-                m_fuelInTank = Utils.ClampFloatingValue<float>(pluginManager.GetPropertyValue("DataCorePlugin.GameData.Fuel")),
-                m_fuelCapacity = Utils.ClampFloatingValue<float>(pluginManager.GetPropertyValue("DataCorePlugin.GameData.MaxFuel")),
+                m_frontBrakeBias = Utils.ClampIntegerValue<byte>(pluginManager.LastData?.NewData?.BrakeBias),
+                m_pitLimiterStatus = Utils.ClampIntegerValue<byte>(pluginManager.LastData?.NewData?.PitLimiterOn),
+                m_fuelInTank = Utils.ClampFloatingValue<float>(pluginManager.LastData?.NewData?.Fuel),
+                m_fuelCapacity = Utils.ClampFloatingValue<float>(pluginManager.LastData?.NewData?.MaxFuel),
                 m_fuelRemainingLaps = Utils.ClampFloatingValue<float>(pluginManager.GetPropertyValue("DataCorePlugin.Computed.Fuel_RemainingLaps")),
-                m_maxRPM = Utils.ClampIntegerValue<ushort>(pluginManager.GetPropertyValue("DataCorePlugin.GameData.CarSettings_MaxRPM")),
-                m_idleRPM = Utils.ClampIntegerValue<ushort>(Convert.ToDouble(pluginManager.GetPropertyValue("DataCorePlugin.GameData.CarSettings_MaxRPM")) * 0.27),
-                m_maxGears = Utils.ClampIntegerValue<byte>(pluginManager.GetPropertyValue("DataCorePlugin.GameData.CarSettings_MaxGears")),
-                m_drsAllowed = Utils.ClampIntegerValue<byte>(pluginManager.GetPropertyValue("DataCorePlugin.GameData.DRSAvailable")),
-                m_drsActivationDistance = (ushort)(Convert.ToBoolean(pluginManager.GetPropertyValue("DataCorePlugin.GameData.DRSAvailable")) ? 0 : 50),
+                m_maxRPM = Utils.ClampIntegerValue<ushort>(pluginManager.LastData?.NewData?.CarSettings_MaxRPM),
+                m_idleRPM = Utils.ClampIntegerValue<ushort>(Convert.ToDouble(pluginManager.LastData?.NewData?.CarSettings_MaxRPM) * 0.27),
+                m_maxGears = Utils.ClampIntegerValue<byte>(pluginManager.LastData?.NewData?.CarSettings_MaxGears),
+                m_drsAllowed = Utils.ClampIntegerValue<byte>(pluginManager.LastData?.NewData?.DRSAvailable),
+                m_drsActivationDistance = (ushort)(Convert.ToBoolean(pluginManager.LastData?.NewData?.DRSAvailable) ? 0 : 50),
                 m_tyresWear = new byte[4]
                 {
-                    (byte)(100 - Utils.ClampIntegerValue<byte>(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyreWearRearLeft"))),
-                    (byte)(100 - Utils.ClampIntegerValue<byte>(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyreWearRearRight"))),
-                    (byte)(100 - Utils.ClampIntegerValue<byte>(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyreWearFrontLeft"))),
-                    (byte)(100 - Utils.ClampIntegerValue<byte>(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyreWearFrontRight"))),
+                    (byte)(100 - Utils.ClampIntegerValue<byte>(pluginManager.LastData?.NewData?.TyreWearRearLeft)),
+                    (byte)(100 - Utils.ClampIntegerValue<byte>(pluginManager.LastData?.NewData?.TyreWearRearRight)),
+                    (byte)(100 - Utils.ClampIntegerValue<byte>(pluginManager.LastData?.NewData?.TyreWearFrontLeft)),
+                    (byte)(100 - Utils.ClampIntegerValue<byte>(pluginManager.LastData?.NewData?.TyreWearFrontRight)),
                 },
                 m_actualTyreCompound = 16,
                 m_visualTyreCompound = 16,
                 m_tyresAgeLaps = 0,
                 m_tyresDamage = new byte[4]
                 {
-                    (byte)(100 - Utils.ClampIntegerValue<byte>(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyreWearRearLeft"))),
-                    (byte)(100 - Utils.ClampIntegerValue<byte>(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyreWearRearRight"))),
-                    (byte)(100 - Utils.ClampIntegerValue<byte>(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyreWearFrontLeft"))),
-                    (byte)(100 - Utils.ClampIntegerValue<byte>(pluginManager.GetPropertyValue("DataCorePlugin.GameData.TyreWearFrontRight"))),
+                    (byte)(100 - Utils.ClampIntegerValue<byte>(pluginManager.LastData?.NewData?.TyreWearRearLeft)),
+                    (byte)(100 - Utils.ClampIntegerValue<byte>(pluginManager.LastData?.NewData?.TyreWearRearRight)),
+                    (byte)(100 - Utils.ClampIntegerValue<byte>(pluginManager.LastData?.NewData?.TyreWearFrontLeft)),
+                    (byte)(100 - Utils.ClampIntegerValue<byte>(pluginManager.LastData?.NewData?.TyreWearFrontRight)),
                 },
                 m_frontLeftWingDamage = 0,
                 m_frontRightWingDamage = 0,
@@ -81,7 +81,7 @@ namespace SimHubToF12020UDP.Packets
                 m_engineDamage = 0,
                 m_gearBoxDamage = 0,
                 m_vehicleFiaFlags = GetFlag(pluginManager),
-                m_ersStoreEnergy = Utils.ClampFloatingValue<float>(pluginManager.GetPropertyValue("DataCorePlugin.GameData.ERSStored")),
+                m_ersStoreEnergy = Utils.ClampFloatingValue<float>(pluginManager.LastData?.NewData?.ERSStored),
                 m_ersDeployMode = 1,
                 m_ersHarvestedThisLapMGUK = 100f,
                 m_ersHarvestedThisLapMGUH = 1f,
@@ -124,13 +124,13 @@ namespace SimHubToF12020UDP.Packets
 
         private static sbyte GetFlag(PluginManager pluginManager)
         {
-            if (Utils.ClampIntegerValue<byte>(pluginManager.GetPropertyValue("DataCorePlugin.GameData.Flag_Green")) > 0)
+            if (Utils.ClampIntegerValue<byte>(pluginManager.LastData?.NewData?.Flag_Green) > 0)
                 return 1;
-            if (Utils.ClampIntegerValue<byte>(pluginManager.GetPropertyValue("DataCorePlugin.GameData.Flag_Blue")) > 0)
+            if (Utils.ClampIntegerValue<byte>(pluginManager.LastData?.NewData?.Flag_Blue) > 0)
                 return 2;
-            if (Utils.ClampIntegerValue<byte>(pluginManager.GetPropertyValue("DataCorePlugin.GameData.Flag_Yellow")) > 0)
+            if (Utils.ClampIntegerValue<byte>(pluginManager.LastData?.NewData?.Flag_Yellow) > 0)
                 return 3;
-            if (Utils.ClampIntegerValue<byte>(pluginManager.GetPropertyValue("DataCorePlugin.GameData.Flag_Red")) > 0)
+            if (Utils.ClampIntegerValue<byte>(pluginManager.LastData?.NewData?.Flag_Black) > 0) // There is no red flag in SimHub
                 return 4;
             return 0;
         }
