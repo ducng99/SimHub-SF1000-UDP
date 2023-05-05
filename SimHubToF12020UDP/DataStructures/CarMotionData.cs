@@ -5,22 +5,93 @@ namespace SimHubToF12020UDP.DataStructures;
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public struct CarMotionData
 {
-    public float m_worldPositionX;           // World space X position
-    public float m_worldPositionY;           // World space Y position
-    public float m_worldPositionZ;           // World space Z position
-    public float m_worldVelocityX;           // Velocity in world space X
-    public float m_worldVelocityY;           // Velocity in world space Y
-    public float m_worldVelocityZ;           // Velocity in world space Z
-    public short m_worldForwardDirX;         // World space forward X direction (normalised)
-    public short m_worldForwardDirY;         // World space forward Y direction (normalised)
-    public short m_worldForwardDirZ;         // World space forward Z direction (normalised)
-    public short m_worldRightDirX;           // World space right X direction (normalised)
-    public short m_worldRightDirY;           // World space right Y direction (normalised)
-    public short m_worldRightDirZ;           // World space right Z direction (normalised)
-    public float m_gForceLateral;            // Lateral G-Force component
-    public float m_gForceLongitudinal;       // Longitudinal G-Force component
-    public float m_gForceVertical;           // Vertical G-Force component
-    public float m_yaw;                      // Yaw angle in radians
-    public float m_pitch;                    // Pitch angle in radians
-    public float m_roll;                     // Roll angle in radians
+    /**
+     * <summary>World space X position</summary>
+     */
+    public float m_worldPositionX;
+
+    /**
+     * <summary>World space Y position</summary>
+     */
+    public float m_worldPositionY;
+
+    /**
+     * <summary>World space Z position</summary>
+     */
+    public float m_worldPositionZ;
+
+    /**
+     * <summary>Velocity in world space X</summary>
+     */
+    public float m_worldVelocityX;
+
+    /**
+     * <summary>Velocity in world space Y</summary>
+     */
+    public float m_worldVelocityY;
+
+    /**
+     * <summary>Velocity in world space Z</summary>
+     */
+    public float m_worldVelocityZ;
+
+    /**
+     * <summary>World space forward X direction (normalised)</summary>
+     */
+    public short m_worldForwardDirX;
+
+    /**
+     * <summary>World space forward Y direction (normalised)</summary>
+     */
+    public short m_worldForwardDirY;
+
+    /**
+     * <summary>World space forward Z direction (normalised)</summary>
+     */
+    public short m_worldForwardDirZ;
+
+    /**
+     * <summary>World space right X direction (normalised)</summary>
+     */
+    public short m_worldRightDirX;
+
+    /**
+     * <summary>World space right Y direction (normalised)</summary>
+     */
+    public short m_worldRightDirY;
+
+    /**
+     * <summary>World space right Z direction (normalised)</summary>
+     */
+    public short m_worldRightDirZ;
+
+    /**
+     * <summary>Lateral G-Force component</summary>
+     */
+    public float m_gForceLateral;
+
+    /**
+     * <summary>Longitudinal G-Force component</summary>
+     */
+    public float m_gForceLongitudinal;
+
+    /**
+     * <summary>Vertical G-Force component</summary>
+     */
+    public float m_gForceVertical;
+
+    /**
+     * <summary>Yaw angle in radians</summary>
+     */
+    public float m_yaw;
+
+    /**
+     * <summary>Pitch angle in radians</summary>
+     */
+    public float m_pitch;
+
+    /**
+     * <summary>Roll angle in radians</summary>
+     */
+    public float m_roll;
 };

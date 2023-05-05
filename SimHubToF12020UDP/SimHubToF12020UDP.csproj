@@ -67,11 +67,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataStructures\CarMotionData.cs" />
+    <Compile Include="DataStructures\CarSetupData.cs" />
     <Compile Include="DataStructures\CarStatusData.cs" />
     <Compile Include="DataStructures\CarTelemetryData.cs" />
     <Compile Include="DataStructures\F12020Struct.cs" />
     <Compile Include="DataStructures\LapData.cs" />
     <Compile Include="DataStructures\MarshalZone.cs" />
+    <Compile Include="DataStructures\PackCarSetupData.cs" />
     <Compile Include="DataStructures\PacketCarStatusData.cs" />
     <Compile Include="DataStructures\PacketCarTelemetryData.cs" />
     <Compile Include="DataStructures\PacketHeader.cs" />
