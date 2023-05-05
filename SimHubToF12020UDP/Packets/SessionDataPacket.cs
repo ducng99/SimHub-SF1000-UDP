@@ -13,9 +13,9 @@ namespace SimHubToF12020UDP.Packets
         {
             var pluginManager = PluginManager.GetInstance();
 
-            var start = pluginManager.GetPropertyValue("DataCorePlugin.GameRunning");
+            var start = pluginManager.LastData.GameRunning;
 
-            if (!Convert.ToBoolean(start))
+            if (!start)
             {
                 return new byte[0];
             }
@@ -50,7 +50,7 @@ namespace SimHubToF12020UDP.Packets
                 m_sessionTimeLeft = Utils.ClampIntegerValue<ushort>((pluginManager.LastData?.NewData?.SessionTimeLeft ?? new TimeSpan()).TotalSeconds),
                 m_sessionDuration = 600,
                 m_pitSpeedLimit = 80,
-                m_gamePaused = Utils.ClampIntegerValue<byte>(pluginManager.GetPropertyValue("DataCorePlugin.GamePaused")),
+                m_gamePaused = Utils.ClampIntegerValue<byte>(pluginManager.LastData.GamePaused),
                 m_isSpectating = Utils.ClampIntegerValue<byte>(pluginManager.LastData?.NewData?.Spectating),
                 m_spectatorCarIndex = 0,
                 m_sliProNativeSupport = 0,

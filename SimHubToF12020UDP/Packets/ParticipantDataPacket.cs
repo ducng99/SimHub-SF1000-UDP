@@ -13,9 +13,9 @@ namespace SimHubToF12020UDP.Packets
         {
             var pluginManager = PluginManager.GetInstance();
 
-            var start = pluginManager.GetPropertyValue("DataCorePlugin.GameRunning");
+            var start = pluginManager.LastData.GameRunning;
 
-            if (!Convert.ToBoolean(start))
+            if (!start)
             {
                 return new byte[0];
             }
