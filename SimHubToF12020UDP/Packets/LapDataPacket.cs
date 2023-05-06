@@ -77,6 +77,11 @@ namespace SimHubToF12020UDP.Packets
                 m_resultStatus = 2,
             };
 
+            if (pluginManager.GameName == "GranTurismo7" && packet.m_lapData[0].m_currentLapNum > 0)
+            {
+                packet.m_lapData[0].m_currentLapNum--;
+            }
+
             int size = Marshal.SizeOf(packet);
             byte[] arr = new byte[size];
 
