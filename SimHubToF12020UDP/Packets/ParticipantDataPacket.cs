@@ -13,7 +13,7 @@ namespace SimHubToF12020UDP.Packets
         {
             var pluginManager = PluginManager.GetInstance();
 
-            var start = pluginManager.LastData.GameRunning;
+            var start = pluginManager.LastData?.GameRunning ?? false;
 
             if (!start)
             {
