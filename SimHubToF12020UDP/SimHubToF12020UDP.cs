@@ -45,7 +45,7 @@ namespace SimHubToF12020UDPPlugin
         /// <param name="pluginManager"></param>
         public void Init(PluginManager pluginManager)
         {
-            SimHub.Logging.Current.Info("Starting plugin");
+            SimHub.Logging.Current.Info("[SimHub To F12020 UDP] Starting plugin");
 
             // Load settings
             Settings = this.ReadCommonSettings("GeneralSettings", () => new SimHubToF12020UDPSettings());
@@ -56,7 +56,7 @@ namespace SimHubToF12020UDPPlugin
             if (!F1gameMatch.IsMatch(pluginManager.GameName))
             {
                 UDPServer.Instance.Init();
-                SimHub.Logging.Current.Info("UDP Server running...");
+                SimHub.Logging.Current.Info("[SimHub To F12020 UDP] UDP Server running. Sending to " + Settings.ReceiverIP + ":" + Settings.ReceiverPort);
             }
         }
     }
