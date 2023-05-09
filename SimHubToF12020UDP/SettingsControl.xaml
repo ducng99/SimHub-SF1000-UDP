@@ -16,13 +16,17 @@
                     <TextBlock Margin="5 0 5 0">Port:</TextBlock>
                     <TextBlock Name="Display_Port"></TextBlock>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 10 0 10">
-                    <TextBlock Margin="0 8 5 0">New IP:</TextBlock>
+                <StackPanel Orientation="Horizontal" Margin="0 10 0 0">
+                    <TextBlock Margin="0 7 5 0">New IP:</TextBlock>
                     <ui:IPMaskedTextBox HorizontalAlignment="Left" Name="ReceiverIP" />
-                    <TextBlock Margin="5 8 5 0">Port:</TextBlock>
+                    <TextBlock Margin="5 7 5 0">Port:</TextBlock>
                     <TextBox Name="ReceiverPort" KeyDown="ReceiverPort_KeyDown" VerticalAlignment="Center">20777</TextBox>
                 </StackPanel>
-                <styles:SHButtonPrimary HorizontalAlignment="Left" Content="Save" Click="SHButtonPrimary_Click"/>
+                <StackPanel Orientation="Horizontal" Margin="0 10 0 0">
+                    <styles:SHToggleButton Width="16" Margin="0 0 20 0" Name="OnlySendDataIfGameRunning" />
+                    <TextBlock>Only run if game is running. Toggle "Off" can be used to prevent native game support by SF1000 wheel</TextBlock>
+                </StackPanel>
+                <styles:SHButtonPrimary Margin="0 10 0 0" HorizontalAlignment="Left" Content="Save" Click="SaveButtonPrimary_Click"/>
             </StackPanel>
         </styles:SHSection>
     </Grid>

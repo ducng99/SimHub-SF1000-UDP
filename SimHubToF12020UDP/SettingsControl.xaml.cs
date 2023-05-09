@@ -28,9 +28,10 @@ namespace SimHubToF12020UDPPlugin
 
             ReceiverPort.Text = Plugin.Settings.ReceiverPort.ToString();
             Display_Port.Text = Plugin.Settings.ReceiverPort.ToString();
+            OnlySendDataIfGameRunning.IsChecked = Plugin.Settings.OnlySendDataIfGameRunning;
         }
 
-        private void SHButtonPrimary_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void SaveButtonPrimary_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             Plugin.Settings.ReceiverIP = ReceiverIP.IPAddress.ToString();
             Display_IP.Text = Plugin.Settings.ReceiverIP;
@@ -39,6 +40,8 @@ namespace SimHubToF12020UDPPlugin
             Display_Port.Text = Plugin.Settings.ReceiverPort.ToString();
 
             UDPServer.Instance.UpdateIPAddress(ReceiverIP.IPAddress, Plugin.Settings.ReceiverPort);
+
+            Plugin.Settings.OnlySendDataIfGameRunning = OnlySendDataIfGameRunning.IsChecked ?? true;
         }
 
         private void ReceiverPort_KeyDown(object sender, KeyEventArgs e)

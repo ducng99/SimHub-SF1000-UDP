@@ -1,5 +1,6 @@
 ﻿using SimHub.Plugins;
 using SimHubToF12020UDP.DataStructures;
+using SimHubToF12020UDPPlugin;
 using System;
 using System.Runtime.InteropServices;
 
@@ -13,7 +14,7 @@ namespace SimHubToF12020UDP.Packets
         {
             var pluginManager = PluginManager.GetInstance();
 
-            var start = pluginManager.LastData?.GameRunning ?? false;
+            var start = !SimHubToF12020UDPSettings.Instance.OnlySendDataIfGameRunning || (pluginManager.LastData?.GameRunning ?? false);
 
             if (!start)
             {
@@ -26,13 +27,13 @@ namespace SimHubToF12020UDP.Packets
             {
                 m_packetFormat = 2020,
                 m_gameMajorVersion = 1,
-                m_gameMinorVersion = 13,
+                m_gameMinorVersion = 16,
                 m_packetVersion = 1,
                 m_sessionUID = 0,
                 m_sessionTime = 0,
                 m_frameIdentifier = FrameCount,
                 m_playerCarIndex = 0,
-                m_secondaryPlayerCarIndex = 0,
+                m_secondaryPlayerCarIndex = 255,
                 m_packetId = 1
             };
 
