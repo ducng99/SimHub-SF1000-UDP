@@ -8,12 +8,11 @@ namespace SimHubToF12020UDP.Packets
 {
     internal static class SessionDataPacket
     {
+        private readonly static PluginManager pluginManager = PluginManager.GetInstance();
         private static uint FrameCount = 0;
 
         public static byte[] Read()
         {
-            var pluginManager = PluginManager.GetInstance();
-
             var start = !SimHubToF12020UDPSettings.Instance.OnlySendDataIfGameRunning || (pluginManager.LastData?.GameRunning ?? false);
 
             if (!start)
