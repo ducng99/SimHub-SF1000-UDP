@@ -97,6 +97,12 @@
     <Compile Include="DataStructures_F12020\PacketSessionData.cs" />
     <Compile Include="DataStructures_F12020\ParticipantData.cs" />
     <Compile Include="DataStructures_F12020\WeatherForecastSample.cs" />
+    <Compile Include="Packets_F123\CarDamageDataPacket.cs" />
+    <Compile Include="Packets_F123\CarStatusDataPacket.cs" />
+    <Compile Include="Packets_F123\CarTelemetryDataPacket.cs" />
+    <Compile Include="Packets_F123\LapDataPacket.cs" />
+    <Compile Include="Packets_F123\ParticipantDataPacket.cs" />
+    <Compile Include="Packets_F123\SessionDataPacket.cs" />
     <Compile Include="Packets_F12020\ParticipantDataPacket.cs" />
     <Compile Include="Packets_F12020\CarStatusDataPacket.cs" />
     <Compile Include="Packets_F12020\CarTelemetryDataPacket.cs" />

@@ -1,4 +1,4 @@
-﻿using SimHubSF1000UDP.Packets_F12020;
+﻿using SimHubSF1000UDP.Packets_F123;
 using System;
 using System.Net;
 using System.Net.Sockets;
@@ -94,7 +94,7 @@ namespace SimHubSF1000UDP
             {
                 var deltaTime = DateTime.Now.Subtract(timer).TotalMilliseconds;
 
-                if (deltaTime >= 16.666667)
+                if (deltaTime >= 8.33333)
                 {
                     timer = DateTime.Now;
 
@@ -109,7 +109,7 @@ namespace SimHubSF1000UDP
                     }
                 }
 
-                await Task.Delay(8);
+                await Task.Delay(4);
             }
         }
 
@@ -121,7 +121,7 @@ namespace SimHubSF1000UDP
             {
                 var deltaTime = DateTime.Now.Subtract(timer).TotalMilliseconds;
 
-                if (deltaTime >= 16.666667)
+                if (deltaTime >= 8.33333)
                 {
                     timer = DateTime.Now;
 
@@ -136,7 +136,7 @@ namespace SimHubSF1000UDP
                     }
                 }
 
-                await Task.Delay(8);
+                await Task.Delay(4);
             }
         }
 
@@ -148,7 +148,7 @@ namespace SimHubSF1000UDP
             {
                 var deltaTime = DateTime.Now.Subtract(timer).TotalMilliseconds;
 
-                if (deltaTime >= 16.666667)
+                if (deltaTime >= 8.33333)
                 {
                     timer = DateTime.Now;
 
@@ -163,7 +163,7 @@ namespace SimHubSF1000UDP
                     }
                 }
 
-                await Task.Delay(8);
+                await Task.Delay(4);
             }
         }
         

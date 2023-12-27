@@ -8,10 +8,10 @@
              d:DesignHeight="300" d:DesignWidth="300">
 
     <Grid>
-        <styles:SHSection Name="HeaderSection" Title="SimHub To F12020 UDP">
+        <styles:SHSection Name="HeaderSection" Title="SimHub SF1000 UDP">
             <StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Margin="0 0 5 0">Current Target IP (wheel):</TextBlock>
+                    <TextBlock Margin="0 0 5 0">Current wheel IP:</TextBlock>
                     <TextBlock Name="Display_IP"></TextBlock>
                     <TextBlock Margin="5 0 5 0">Port:</TextBlock>
                     <TextBlock Name="Display_Port"></TextBlock>

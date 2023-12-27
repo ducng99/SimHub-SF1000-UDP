@@ -11,7 +11,7 @@ namespace SimHubSF1000UDP
         public SettingsControl()
         {
             InitializeComponent();
-            HeaderSection.Title = "SimHub To F12020 UDP v" + Assembly.GetExecutingAssembly().GetName().Version.ToString(3);
+            HeaderSection.Title = "SimHub SF1000 UDP v" + Assembly.GetExecutingAssembly().GetName().Version.ToString(3);
         }
 
         public SettingsControl(SimHubSF1000UDP plugin) : this()
