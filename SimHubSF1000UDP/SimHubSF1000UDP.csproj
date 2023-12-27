@@ -66,6 +66,20 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataStructures_F123\CarDamageData.cs" />
+    <Compile Include="DataStructures_F123\CarStatusData.cs" />
+    <Compile Include="DataStructures_F123\CarTelemetryData.cs" />
+    <Compile Include="DataStructures_F123\LapData.cs" />
+    <Compile Include="DataStructures_F123\MarshalZone.cs" />
+    <Compile Include="DataStructures_F123\PacketCarDamageData.cs" />
+    <Compile Include="DataStructures_F123\PacketCarStatusData.cs" />
+    <Compile Include="DataStructures_F123\PacketCarTelemetryData.cs" />
+    <Compile Include="DataStructures_F123\PacketHeader.cs" />
+    <Compile Include="DataStructures_F123\PacketLapData.cs" />
+    <Compile Include="DataStructures_F123\PacketParticipantsData.cs" />
+    <Compile Include="DataStructures_F123\PacketSessionData.cs" />
+    <Compile Include="DataStructures_F123\ParticipantData.cs" />
+    <Compile Include="DataStructures_F123\WeatherForecastSample.cs" />
     <Compile Include="DataStructures_F12020\CarMotionData.cs" />
     <Compile Include="DataStructures_F12020\CarSetupData.cs" />
     <Compile Include="DataStructures_F12020\CarStatusData.cs" />
