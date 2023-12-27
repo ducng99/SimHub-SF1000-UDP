@@ -13,20 +13,26 @@ The data is fetched from SimHub without any other plugins so it is limited. Some
 - Extract the .dll file to SimHub folder (where SimHubWPF.exe file is)
 - Start SimHub and enable the plugin when prompt (only once)
 
-### Wheel config (firmware v5 and below only)
+## Configuration
+### Wheel config
 
-For firmware v5 and below, you need to configure your wheel to read UDP data. Please read [Thrustmasters guide](https://ts.thrustmaster.com/download/accessories/manuals/SF1000/FWheel_Add-On_Ferrari_SF1000Edition_User_Manual.pdf) on how to set it up.
+First thing, you need to configure Wi-Fi for your wheel, please go to [Thrustmaster SF1000 website](https://support.thrustmaster.com/en/product/ferrarisf1000addon-en/), and read instructions provided by them on how to set up UDP/Wi-Fi.
+You should see these two files (you can ignore the steps for F1 games):
 
-![image](https://user-images.githubusercontent.com/49080794/226588068-e1735f09-33d2-47d3-87b5-c2e48364121b.png)
+![image](https://github.com/ducng99/SimHub-to-F12020-UDP/assets/49080794/ed9bae64-c6a0-4370-8645-0a99b2f79281)
 
-For firmware v6.27 and above, UDP is always enabled, you don't have to configure anything on the wheel
+- For firmware v5 and below, you need to configure your wheel to read UDP data. You need to do this everytime the wheel turns on. Please read [Thrustmaster's guide](https://ts.thrustmaster.com/download/accessories/manuals/SF1000/FWheel_Add-On_Ferrari_SF1000Edition_User_Manual.pdf) on how to set it up.
+
+  ![image](https://user-images.githubusercontent.com/49080794/226588068-e1735f09-33d2-47d3-87b5-c2e48364121b.png)
+
+- For firmware v6.27 and above, UDP is always enabled, you don't have to configure anything on the wheel. If the Wi-Fi screen shows `UDP: 20777` then you are good to go. If not, check your firmware version on Info screen.
 
 ### Plugin config
-- On your wheel settings, note the `IP: ` address showing under Wifi tab
+- On your wheel Wi-Fi screen, note the `IP: xxx.xxx.xxx.xxx` address line.
 
 ![image](https://user-images.githubusercontent.com/49080794/226587920-0c0df4ba-760d-48c6-ac06-f9c4c73d8e24.png)
 
-- In SimHub, go to `Additional plugins` -> `SimHub To F12020 UDP` tab -> Enter the IP above in "New IP" section -> Click `Save`
+- Open SimHub, go to `Additional plugins` -> `SimHub To F12020 UDP` tab -> Enter the IP shown above in "New IP" section -> Click `Save` button.
 
 ![image](https://github.com/ducng99/SimHub-to-F12020-UDP/assets/49080794/0a04a656-f3a4-463b-bf40-cfa286d4c199)
 
