@@ -56,6 +56,7 @@ namespace SimHubSF1000UDP
                 Task.Run(LoopCarTelemetryData),
                 Task.Run(LoopCarStatusData),
                 Task.Run(LoopParticipantData),
+                Task.Run(LoopCarDamageData),
             };
         }
 
@@ -191,6 +192,33 @@ namespace SimHubSF1000UDP
                 }
 
                 await Task.Delay(2500);
+            }
+        }
+        
+        public async void LoopCarDamageData()
+        {
+            var timer = DateTime.Now;
+
+            while (udpClient != null)
+            {
+                var deltaTime = DateTime.Now.Subtract(timer).TotalMilliseconds;
+
+                if (deltaTime >= 100)
+                {
+                    timer = DateTime.Now;
+
+                    try
+                    {
+                        var carDamageData = CarDamageDataPacket.Read();
+                        await udpClient.SendAsync(carDamageData, carDamageData.Length, sender);
+                    }
+                    catch (Exception ex)
+                    {
+                        SimHub.Logging.Current.Error("Failed sending UDP packet\n" + ex);
+                    }
+                }
+
+                await Task.Delay(50);
             }
         }
     }
