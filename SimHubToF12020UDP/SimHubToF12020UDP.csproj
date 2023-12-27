@@ -36,21 +36,21 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="GameReaderCommon">
-      <HintPath>..\libs\Simhub\GameReaderCommon.dll</HintPath>
+      <HintPath>..\libs\SimHub\GameReaderCommon.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="log4net">
-      <HintPath>..\libs\Simhub\log4net.dll</HintPath>
+      <HintPath>..\libs\SimHub\log4net.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="SimHub.Logging">
-      <HintPath>..\libs\Simhub\SimHub.Logging.dll</HintPath>
+      <HintPath>..\libs\SimHub\SimHub.Logging.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="SimHub.Plugins">
-      <HintPath>..\libs\Simhub\SimHub.Plugins.dll</HintPath>
+      <HintPath>..\libs\SimHub\SimHub.Plugins.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
