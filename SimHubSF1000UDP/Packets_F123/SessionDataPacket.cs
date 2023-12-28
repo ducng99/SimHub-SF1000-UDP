@@ -80,7 +80,7 @@ namespace SimHubSF1000UDP.Packets_F123
                 m_dynamicRacingLineType = 0,
                 m_gameMode = 7,
                 m_ruleSet = 1,
-                m_timeOfDay = 54000,
+                m_timeOfDay = 900,
                 m_sessionLength = 7,
                 m_speedUnitsLeadPlayer = 1,
                 m_temperatureUnitsLeadPlayer = 0,

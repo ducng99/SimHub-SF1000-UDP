@@ -1,17 +1,19 @@
-﻿using SimHubSF1000UDP.Packets_F123;
-using System;
+﻿using System;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 
+#nullable enable
 namespace SimHubSF1000UDP
 {
     internal class UDPServer
     {
-        private static UDPServer _instance = null;
-        private UdpClient udpClient;
-        private IPEndPoint sender = new(IPAddress.Parse("192.168.1.20"), 20777);
+        private static UDPServer? _instance = null;
+        private UdpClient? UDPClient = null;
+        private IPEndPoint ReceiverAddress = new(IPAddress.Parse("192.168.1.20"), 20777);
 
+        private bool IsRunning = false;
         private Task[] RunningTasks = new Task[0];
 
         public static UDPServer Instance
@@ -21,205 +23,89 @@ namespace SimHubSF1000UDP
                 _instance ??= new UDPServer();
                 return _instance;
             }
-            private set
-            {
-                _instance = value;
-            }
         }
 
         public static void DestroyInstance()
         {
-            Instance.udpClient.Close();
-            Instance.udpClient = null;
+            Instance.Stop();
 
-            Task.WaitAll(Instance.RunningTasks);
-
-            Instance = null;
+            _instance = null;
         }
 
-        private UDPServer()
+        public void Update()
         {
-            udpClient = new();
+            ReceiverAddress = new(IPAddress.Parse(SimHubSF1000UDPSettings.Instance.ReceiverIP), SimHubSF1000UDPSettings.Instance.ReceiverPort);
+
+            Stop();
+            Start();
         }
 
-        public void UpdateIPAddress(IPAddress ipAddress, int port)
+        public void Start()
         {
-            sender = new(ipAddress, port);
-        }
+            UDPClient = new();
+            IsRunning = true;
 
-        public void Init()
-        {
-            RunningTasks = new Task[]
+            RunningTasks = SimHubSF1000UDPSettings.Instance.UDPFormat switch
             {
-                Task.Run(LoopSessionData),
-                Task.Run(LoopLapData),
-                Task.Run(LoopCarTelemetryData),
-                Task.Run(LoopCarStatusData),
-                Task.Run(LoopParticipantData),
-                Task.Run(LoopCarDamageData),
+                UDPFormats.F12020 => new Task[]
+                {
+                    Task.Run(() => RunLoop(typeof(Packets_F12020.SessionDataPacket), 500)),
+                    Task.Run(() => RunLoop(typeof(Packets_F12020.LapDataPacket), 50)),
+                    Task.Run(() => RunLoop(typeof(Packets_F12020.CarTelemetryDataPacket), 50)),
+                    Task.Run(() => RunLoop(typeof(Packets_F12020.CarStatusDataPacket), 50)),
+                    Task.Run(() => RunLoop(typeof(Packets_F12020.ParticipantDataPacket), 5000)),
+                },
+                UDPFormats.F123 => new Task[]
+                {
+                    Task.Run(() => RunLoop(typeof(Packets_F123.SessionDataPacket), 500)),
+                    Task.Run(() => RunLoop(typeof(Packets_F123.LapDataPacket), 8.3333)),
+                    Task.Run(() => RunLoop(typeof(Packets_F123.CarTelemetryDataPacket), 8.3333)),
+                    Task.Run(() => RunLoop(typeof(Packets_F123.CarStatusDataPacket), 8.3333)),
+                    Task.Run(() => RunLoop(typeof(Packets_F123.ParticipantDataPacket), 5000)),
+                    Task.Run(() => RunLoop(typeof(Packets_F123.CarDamageDataPacket), 100))
+                },
+                _ => new Task[0]
             };
         }
 
-        public async void LoopSessionData()
+        private void Stop()
         {
-            var timer = DateTime.Now;
+            IsRunning = false;
+            Task.WaitAll(RunningTasks);
 
-            while (udpClient != null)
-            {
-                var deltaTime = DateTime.Now.Subtract(timer).TotalMilliseconds;
-
-                if (deltaTime >= 500)
-                {
-                    timer = DateTime.Now;
-
-                    try
-                    {
-                        var sessionData = SessionDataPacket.Read();
-                        await udpClient.SendAsync(sessionData, sessionData.Length, sender);
-                    }
-                    catch (Exception ex)
-                    {
-                        SimHub.Logging.Current.Error("Failed sending UDP packet\n" + ex);
-                    }
-                }
-
-                await Task.Delay(250);
-            }
+            UDPClient?.Close();
+            UDPClient?.Dispose();
+            UDPClient = null;
         }
 
-        public async void LoopCarTelemetryData()
+        private async Task RunLoop(Type outputPacket, double sendRateInMs)
         {
-            var timer = DateTime.Now;
+            var timer = Stopwatch.StartNew();
 
-            while (udpClient != null)
+            while (IsRunning)
             {
-                var deltaTime = DateTime.Now.Subtract(timer).TotalMilliseconds;
-
-                if (deltaTime >= 8.33333)
+                if (timer.ElapsedMilliseconds >= sendRateInMs)
                 {
-                    timer = DateTime.Now;
+                    timer.Restart();
 
                     try
                     {
-                        var carTelemetryData = CarTelemetryDataPacket.Read();
-                        await udpClient.SendAsync(carTelemetryData, carTelemetryData.Length, sender);
+                        var sessionData = (byte[])outputPacket.GetMethod("Read").Invoke(null, null);
+                        if (UDPClient != null && sessionData.Length > 0)
+                        {
+                            UDPClient.Send(sessionData, sessionData.Length, ReceiverAddress);
+                        }
                     }
                     catch (Exception ex)
                     {
-                        SimHub.Logging.Current.Error("Failed sending UDP packet\n" + ex);
+                        SimHub.Logging.Current.Error("[SimHub SF1000 UDP] Failed sending UDP packet\n" + ex);
                     }
                 }
 
-                await Task.Delay(4);
+                await Task.Delay((int)(sendRateInMs / 2));
             }
-        }
 
-        public async void LoopCarStatusData()
-        {
-            var timer = DateTime.Now;
-
-            while (udpClient != null)
-            {
-                var deltaTime = DateTime.Now.Subtract(timer).TotalMilliseconds;
-
-                if (deltaTime >= 8.33333)
-                {
-                    timer = DateTime.Now;
-
-                    try
-                    {
-                        var carStatusData = CarStatusDataPacket.Read();
-                        await udpClient.SendAsync(carStatusData, carStatusData.Length, sender);
-                    }
-                    catch (Exception ex)
-                    {
-                        SimHub.Logging.Current.Error("Failed sending UDP packet\n" + ex);
-                    }
-                }
-
-                await Task.Delay(4);
-            }
-        }
-
-        public async void LoopLapData()
-        {
-            var timer = DateTime.Now;
-
-            while (udpClient != null)
-            {
-                var deltaTime = DateTime.Now.Subtract(timer).TotalMilliseconds;
-
-                if (deltaTime >= 8.33333)
-                {
-                    timer = DateTime.Now;
-
-                    try
-                    {
-                        var lapData = LapDataPacket.Read();
-                        await udpClient.SendAsync(lapData, lapData.Length, sender);
-                    }
-                    catch (Exception ex)
-                    {
-                        SimHub.Logging.Current.Error("Failed sending UDP packet\n" + ex);
-                    }
-                }
-
-                await Task.Delay(4);
-            }
-        }
-        
-        public async void LoopParticipantData()
-        {
-            var timer = DateTime.Now;
-
-            while (udpClient != null)
-            {
-                var deltaTime = DateTime.Now.Subtract(timer).TotalSeconds;
-
-                if (deltaTime >= 5)
-                {
-                    timer = DateTime.Now;
-
-                    try
-                    {
-                        var participantData = ParticipantDataPacket.Read();
-                        await udpClient.SendAsync(participantData, participantData.Length, sender);
-                    }
-                    catch (Exception ex)
-                    {
-                        SimHub.Logging.Current.Error("Failed sending UDP packet\n" + ex);
-                    }
-                }
-
-                await Task.Delay(2500);
-            }
-        }
-        
-        public async void LoopCarDamageData()
-        {
-            var timer = DateTime.Now;
-
-            while (udpClient != null)
-            {
-                var deltaTime = DateTime.Now.Subtract(timer).TotalMilliseconds;
-
-                if (deltaTime >= 100)
-                {
-                    timer = DateTime.Now;
-
-                    try
-                    {
-                        var carDamageData = CarDamageDataPacket.Read();
-                        await udpClient.SendAsync(carDamageData, carDamageData.Length, sender);
-                    }
-                    catch (Exception ex)
-                    {
-                        SimHub.Logging.Current.Error("Failed sending UDP packet\n" + ex);
-                    }
-                }
-
-                await Task.Delay(50);
-            }
+            timer.Stop();
         }
     }
 }

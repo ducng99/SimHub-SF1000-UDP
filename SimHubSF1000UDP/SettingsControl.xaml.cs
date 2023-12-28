@@ -18,29 +18,47 @@ namespace SimHubSF1000UDP
         {
             this.Plugin = plugin;
 
+            // First load from plugin settings
             if (System.Net.IPAddress.TryParse(Plugin.Settings.ReceiverIP, out var ipAddress))
             {
-                ReceiverIP.IPAddress = ipAddress;
-                Display_IP.Text = ipAddress.ToString();
-                UDPServer.Instance.UpdateIPAddress(ipAddress, Plugin.Settings.ReceiverPort);
+                NewReceiverIP.IPAddress = ipAddress;
+                CurrentReceiverIP.Text = ipAddress.ToString();
+                UDPServer.Instance.Update();
             }
 
-            ReceiverPort.Text = Plugin.Settings.ReceiverPort.ToString();
-            Display_Port.Text = Plugin.Settings.ReceiverPort.ToString();
+            NewReceiverPort.Text = Plugin.Settings.ReceiverPort.ToString();
+            CurrentReceiverPort.Text = Plugin.Settings.ReceiverPort.ToString();
             OnlySendDataIfGameRunning.IsChecked = Plugin.Settings.OnlySendDataIfGameRunning;
+
+            UDPFormat_Select.SelectedItem = Plugin.Settings.UDPFormat switch
+            {
+                UDPFormats.F12020 => UDPFormat_F12020,
+                UDPFormats.F123 => UDPFormat_F123,
+                _ => UDPFormat_F123,
+            };
         }
 
         private void SaveButtonPrimary_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            Plugin.Settings.ReceiverIP = ReceiverIP.IPAddress.ToString();
-            Display_IP.Text = Plugin.Settings.ReceiverIP;
+            // Save to plugin settings
+            Plugin.Settings.ReceiverIP = NewReceiverIP.IPAddress.ToString();
+            CurrentReceiverIP.Text = Plugin.Settings.ReceiverIP;
 
-            Plugin.Settings.ReceiverPort = Utils.ClampIntegerValue<ushort>(ReceiverPort.Text);
-            Display_Port.Text = Plugin.Settings.ReceiverPort.ToString();
-
-            UDPServer.Instance.UpdateIPAddress(ReceiverIP.IPAddress, Plugin.Settings.ReceiverPort);
+            Plugin.Settings.ReceiverPort = Utils.ClampIntegerValue<ushort>(NewReceiverPort.Text);
+            CurrentReceiverPort.Text = Plugin.Settings.ReceiverPort.ToString();
 
             Plugin.Settings.OnlySendDataIfGameRunning = OnlySendDataIfGameRunning.IsChecked ?? true;
+
+            if (UDPFormat_Select.SelectedItem == UDPFormat_F12020)
+            {
+                Plugin.Settings.UDPFormat = UDPFormats.F12020;
+            }
+            else if (UDPFormat_Select.SelectedItem == UDPFormat_F123)
+            {
+                Plugin.Settings.UDPFormat = UDPFormats.F123;
+            }
+
+            UDPServer.Instance.Update();
         }
 
         private void ReceiverPort_KeyDown(object sender, KeyEventArgs e)

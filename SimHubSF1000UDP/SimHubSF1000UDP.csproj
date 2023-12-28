@@ -84,7 +84,6 @@
     <Compile Include="DataStructures_F12020\CarSetupData.cs" />
     <Compile Include="DataStructures_F12020\CarStatusData.cs" />
     <Compile Include="DataStructures_F12020\CarTelemetryData.cs" />
-    <Compile Include="DataStructures_F12020\F12020Struct.cs" />
     <Compile Include="DataStructures_F12020\LapData.cs" />
     <Compile Include="DataStructures_F12020\MarshalZone.cs" />
     <Compile Include="DataStructures_F12020\PackCarSetupData.cs" />
