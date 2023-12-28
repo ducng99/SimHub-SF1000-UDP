@@ -2,17 +2,20 @@
 [![Build](https://github.com/ducng99/SimHub-SF1000-UDP/actions/workflows/build.yml/badge.svg)](https://github.com/ducng99/SimHub-SF1000-UDP/actions/workflows/build.yml)
 
 > [!CAUTION]
-> You are viewing version 2 of this plugin. It only supports SF1000 wheel with firmware v6.27 and above. If you have older firmware, please use [version 1](https://github.com/ducng99/SimHub-SF1000-UDP/tree/v1) instead.
-> See [Thrustmaster SF1000 website](https://support.thrustmaster.com/en/product/ferrarisf1000addon-en/) for more information on how to update your wheel firmware.
+> Please check if you have installed v1.* previously, remove file `SimHubToF12020UDP.dll` from SimHub folder before installing v2 - which has a new name `SimHubSF1000UDP.dll`.
 
 > [!NOTE]
-> This version is still in development and not ready for use.
+> Starting from v2, this plugin supports F1 2020 and F1 23 UDP format. By default, F1 23 UDP format is used, which supports SF1000 wheel with firmware v6.27 and above.
+>
+> If your wheel does not show any data or has older firmware, go to `Additional plugins` -> `SimHub SF1000 UDP` tab -> UDP format dropdown -> Select `F1 2020` -> Click `Save` button.
+>
+> **(Recommended)** See [Thrustmaster SF1000 website](https://support.thrustmaster.com/en/product/ferrarisf1000addon-en/) for more information on how to check & update your wheel firmware.
 
-This plugin primary goal is to add more games support to Thrustmaster™ SF1000 wheel through its UDP support for F1 games. Some data will be modified to accomodate for some bugs the wheel has.
+This plugin primary goal is to add more games support to Thrustmaster™ SF1000 wheel through its UDP support for F1 2020 & F1 23 data structs. Some data will be modified to accomodate for some bugs the wheel has. Some data will be dropped to avoid unnecessary data being transferred to the wheel (eg. weather).
 
-From SimHub app, this plugin will send UDP packets containing data in [F1 23 UDP format](https://answers.ea.com/t5/General-Discussion/F1-23-UDP-Specification/td-p/12632888).
+From SimHub app, this plugin will send UDP packets containing data in [F1 23 UDP format](https://answers.ea.com/t5/General-Discussion/F1-23-UDP-Specification/td-p/12632888), or [F1 2020 UDP format](https://web.archive.org/web/20221127112921/https://forums.codemasters.com/topic/50942-f1-2020-udp-specification/).
 
-The data is fetched from SimHub without any other plugins so it is limited. Some functionalities on the wheel will not be available.
+Data comes directly from SimHub without any other plugins so it is limited. Some functionalities on the wheel will not be available. Thrustmaster also does not use all data provided by the game, so some data will not be shown on the wheel, most notably the ERS bar.
 
 ## Installation
 - Download [latest SimHub](https://www.simhubdash.com/download-2/)
@@ -45,8 +48,21 @@ You should see these two files (you can ignore the steps for F1 games):
 
 - Start your game and the wheel should show data.
 
+## Building
+### Requirements
+
+- Visual Studio 2022 (recommended), other versions might work but not tested.
+- .NET Framework 4.8
+
+### Steps
+
+1. SimHub libraries are included in this repo, so building should be straightforward as hitting build button. A .dll file will be generated in `bin/Debug` or `bin/Release` folder, depending on your configuration selection.
+2. You know what to do next.
+
 ## Issue
 Any issues please report [here](https://github.com/ducng99/SimHub-SF1000-UDP/issues/new/choose).
 
 ## Disclaimer
 This application/project is not affiliated, associated, authorized, endorsed by, or in any way officially connected with Guillemot Corporation S.A, or any of its subsidiaries or its affiliate. Thrustmaster is a registered trademarks of Guillemot Corporation S.A.
+
+This application/project is not affiliated, associated, authorized, endorsed by, or in any way officially connected with Electronic Arts, or any of its subsidiaries or its affiliate.
