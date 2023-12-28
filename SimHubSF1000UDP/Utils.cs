@@ -13,37 +13,36 @@ namespace SimHubSF1000UDP
 
             try
             {
+                if (typeof(T) == typeof(ulong))
+                {
+                    return (T)Convert.ChangeType(Convert.ToUInt64(value), typeof(T));
+                }
+
                 returnValue = Convert.ToInt64(value);
 
                 if (typeof(T) == typeof(byte))
                 {
-                    returnValue = Math.Min(returnValue, byte.MaxValue);
-                    returnValue = Math.Max(returnValue, byte.MinValue);
+                    returnValue = Math.Max(Math.Min(returnValue, byte.MaxValue), byte.MinValue);
                 }
                 else if (typeof(T) == typeof(sbyte))
                 {
-                    returnValue = Math.Min(returnValue, sbyte.MaxValue);
-                    returnValue = Math.Max(returnValue, sbyte.MinValue);
+                    returnValue = Math.Max(Math.Min(returnValue, sbyte.MaxValue), sbyte.MinValue);
                 }
                 else if (typeof(T) == typeof(short))
                 {
-                    returnValue = Math.Min(returnValue, short.MaxValue);
-                    returnValue = Math.Max(returnValue, short.MinValue);
+                    returnValue = Math.Max(Math.Min(returnValue, short.MaxValue), short.MinValue);
                 }
                 else if (typeof(T) == typeof(ushort))
                 {
-                    returnValue = Math.Min(returnValue, ushort.MaxValue);
-                    returnValue = Math.Max(returnValue, ushort.MinValue);
+                    returnValue = Math.Max(Math.Min(returnValue, ushort.MaxValue), ushort.MinValue);
                 }
                 else if (typeof(T) == typeof(int))
                 {
-                    returnValue = Math.Min(returnValue, int.MaxValue);
-                    returnValue = Math.Max(returnValue, int.MinValue);
+                    returnValue = Math.Max(Math.Min(returnValue, int.MaxValue), int.MinValue);
                 }
                 else if (typeof(T) == typeof(uint))
                 {
-                    returnValue = Math.Min(returnValue, uint.MaxValue);
-                    returnValue = Math.Max(returnValue, uint.MinValue);
+                    returnValue = Math.Max(Math.Min(returnValue, uint.MaxValue), uint.MinValue);
                 }
             }
             catch { }
@@ -64,13 +63,11 @@ namespace SimHubSF1000UDP
 
                 if (typeof(T) == typeof(float))
                 {
-                    returnValue = Math.Min(returnValue, float.MaxValue);
-                    returnValue = Math.Max(returnValue, float.MinValue);
+                    returnValue = Math.Max(Math.Min(returnValue, float.MaxValue), float.MinValue);
                 }
                 else if (typeof(T) == typeof(decimal))
                 {
-                    returnValue = Math.Min(returnValue, Convert.ToDouble(decimal.MaxValue));
-                    returnValue = Math.Max(returnValue, Convert.ToDouble(decimal.MinValue));
+                    returnValue = Math.Max(Math.Min(returnValue, Convert.ToDouble(decimal.MaxValue)), Convert.ToDouble(decimal.MinValue));
                 }
             }
             catch { }

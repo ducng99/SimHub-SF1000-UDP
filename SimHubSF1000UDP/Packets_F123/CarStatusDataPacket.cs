@@ -75,10 +75,12 @@ namespace SimHubSF1000UDP.Packets_F123
 
             if (pluginManager.GameName == "AssettoCorsa")
             {
+                packet.m_carStatusData[0].m_ersStoreEnergy = Utils.ClampFloatingValue<float>(Utils.ClampFloatingValue<float>(pluginManager.LastData?.NewData?.ERSMax) - packet.m_carStatusData[0].m_ersStoreEnergy);
+
                 byte ersMode;
                 if (Utils.ClampIntegerValue<byte>(pluginManager.GetPropertyValue("DataCorePlugin.GameRawData.Physics.KersInput")) == 1)
                 {
-                    ersMode = 2;
+                    ersMode = 3;
                 }
                 else
                 {
@@ -86,8 +88,8 @@ namespace SimHubSF1000UDP.Packets_F123
                     ersMode = ersMode switch
                     {
                         1 or 2 => 1,
-                        3 => 2,
-                        4 or 5 => 3,
+                        3 => 3,
+                        4 or 5 => 2,
                         _ => 0,
                     };
                 }

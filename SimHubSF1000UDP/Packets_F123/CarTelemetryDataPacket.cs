@@ -55,6 +55,12 @@ namespace SimHubSF1000UDP.Packets_F123
                                     + Convert.ToDouble(pluginManager.LastData?.NewData?.CarSettings_RPMShiftLight2) / 3.0
                                     + redlinePercent / 3.0;
 
+            var engineTemp = Utils.ClampIntegerValue<ushort>(pluginManager.LastData?.NewData?.OilTemperature);
+            if (engineTemp == 0)
+            {
+                engineTemp = 108;
+            }
+
             packet.m_carTelemetryData[0] = new CarTelemetryData
             {
                 m_speed = Utils.ClampIntegerValue<ushort>(pluginManager.LastData?.NewData?.SpeedKmh),
@@ -88,7 +94,7 @@ namespace SimHubSF1000UDP.Packets_F123
                     Utils.ClampIntegerValue<byte>(pluginManager.LastData?.NewData?.TyreTemperatureFrontLeftInner),
                     Utils.ClampIntegerValue<byte>(pluginManager.LastData?.NewData?.TyreTemperatureFrontRightInner),
                 },
-                m_engineTemperature = Utils.ClampIntegerValue<ushort>(pluginManager.LastData?.NewData?.OilTemperature ?? 100),
+                m_engineTemperature = engineTemp,
                 m_tyresPressure = new float[4]
                 {
                     Utils.ClampFloatingValue<float>(pluginManager.LastData?.NewData?.TyrePressureRearLeft),
