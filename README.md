@@ -44,7 +44,7 @@ You should see these two files (you can ignore the steps for F1 games):
 
 - Open SimHub, go to `Additional plugins` -> `SimHub SF1000 UDP` tab -> Enter the IP shown above in "New IP" section -> Click `Save` button.
 
-  ![image](https://github.com/ducng99/SimHub-SF1000-UDP/assets/49080794/0a04a656-f3a4-463b-bf40-cfa286d4c199)
+  ![image](https://github.com/ducng99/SimHub-SF1000-UDP/assets/49080794/2f8eceac-2206-4f18-83ac-60f22471a2b4)
 
 - Start your game and the wheel should show data.
 
