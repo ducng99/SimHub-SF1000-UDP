@@ -1,5 +1,7 @@
 ﻿using SimHub.Plugins;
+using System.IO;
 using System.Text.RegularExpressions;
+using System.Windows;
 
 namespace SimHubSF1000UDP
 {
@@ -49,6 +51,13 @@ namespace SimHubSF1000UDP
 
             // Load settings
             Settings = this.ReadCommonSettings("GeneralSettings", () => new SimHubSF1000UDPSettings());
+
+            // Warning v1 found
+            if (File.Exists("SimHubToF12020UDP.dll"))
+            {
+                MessageBox.Show("Old version detected. Please close SimHub and remove SimHubToF12020UDP.dll file.", "SimHub SF1000 UDP", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
             Regex F1gameMatch = new(@"/^F120\d{2}$/");
 
