@@ -11,7 +11,8 @@ namespace SimHubSF1000UDP
     {
         private static UDPServer? _instance = null;
         private UdpClient? UDPClient = null;
-        private IPEndPoint ReceiverAddress = new(IPAddress.Parse("192.168.1.20"), 20777);
+        private IPEndPoint ReceiverAddress = new(IPAddress.Parse(SimHubSF1000UDPSettings.Instance.ReceiverIP), SimHubSF1000UDPSettings.Instance.ReceiverPort);
+        private double SendDelayMS = 1000.0 / 60;
 
         private bool IsRunning = false;
         private Task[] RunningTasks = new Task[0];
@@ -34,8 +35,6 @@ namespace SimHubSF1000UDP
 
         public void Update()
         {
-            ReceiverAddress = new(IPAddress.Parse(SimHubSF1000UDPSettings.Instance.ReceiverIP), SimHubSF1000UDPSettings.Instance.ReceiverPort);
-
             Stop();
             Start();
         }
@@ -44,23 +43,27 @@ namespace SimHubSF1000UDP
         {
             UDPClient = new();
             IsRunning = true;
+            ReceiverAddress = new(IPAddress.Parse(SimHubSF1000UDPSettings.Instance.ReceiverIP), SimHubSF1000UDPSettings.Instance.ReceiverPort);
+            SendDelayMS = 1000.0 / SimHubSF1000UDPSettings.Instance.UDPSendRate;
+
+            SimHub.Logging.Current.Info("[SimHub SF1000 UDP] UDP server started. Sending to " + SimHubSF1000UDPSettings.Instance.ReceiverIP + ":" + SimHubSF1000UDPSettings.Instance.ReceiverPort + " every " + SendDelayMS + "ms");
 
             RunningTasks = SimHubSF1000UDPSettings.Instance.UDPFormat switch
             {
                 UDPFormats.F12020 => new Task[]
                 {
                     Task.Run(() => RunLoop(typeof(Packets_F12020.SessionDataPacket), 500)),
-                    Task.Run(() => RunLoop(typeof(Packets_F12020.LapDataPacket), 50)),
-                    Task.Run(() => RunLoop(typeof(Packets_F12020.CarTelemetryDataPacket), 50)),
-                    Task.Run(() => RunLoop(typeof(Packets_F12020.CarStatusDataPacket), 50)),
+                    Task.Run(() => RunLoop(typeof(Packets_F12020.LapDataPacket), SendDelayMS)),
+                    Task.Run(() => RunLoop(typeof(Packets_F12020.CarTelemetryDataPacket), SendDelayMS)),
+                    Task.Run(() => RunLoop(typeof(Packets_F12020.CarStatusDataPacket), SendDelayMS)),
                     Task.Run(() => RunLoop(typeof(Packets_F12020.ParticipantDataPacket), 5000)),
                 },
                 UDPFormats.F123 => new Task[]
                 {
                     Task.Run(() => RunLoop(typeof(Packets_F123.SessionDataPacket), 500)),
-                    Task.Run(() => RunLoop(typeof(Packets_F123.LapDataPacket), 8.3333)),
-                    Task.Run(() => RunLoop(typeof(Packets_F123.CarTelemetryDataPacket), 8.3333)),
-                    Task.Run(() => RunLoop(typeof(Packets_F123.CarStatusDataPacket), 8.3333)),
+                    Task.Run(() => RunLoop(typeof(Packets_F123.LapDataPacket), SendDelayMS)),
+                    Task.Run(() => RunLoop(typeof(Packets_F123.CarTelemetryDataPacket), SendDelayMS)),
+                    Task.Run(() => RunLoop(typeof(Packets_F123.CarStatusDataPacket), SendDelayMS)),
                     Task.Run(() => RunLoop(typeof(Packets_F123.ParticipantDataPacket), 5000)),
                     Task.Run(() => RunLoop(typeof(Packets_F123.CarDamageDataPacket), 100))
                 },
@@ -76,6 +79,8 @@ namespace SimHubSF1000UDP
             UDPClient?.Close();
             UDPClient?.Dispose();
             UDPClient = null;
+
+            SimHub.Logging.Current.Info("[SimHub SF1000 UDP] UDP server stopped");
         }
 
         private async Task RunLoop(Type outputPacket, double sendRateInMs)

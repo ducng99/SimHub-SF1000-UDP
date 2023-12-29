@@ -23,7 +23,6 @@ namespace SimHubSF1000UDP
             {
                 NewReceiverIP.IPAddress = ipAddress;
                 CurrentReceiverIP.Text = ipAddress.ToString();
-                UDPServer.Instance.Update();
             }
 
             NewReceiverPort.Text = Plugin.Settings.ReceiverPort.ToString();
@@ -35,6 +34,15 @@ namespace SimHubSF1000UDP
                 UDPFormats.F12020 => UDPFormat_F12020,
                 UDPFormats.F123 => UDPFormat_F123,
                 _ => UDPFormat_F123,
+            };
+
+            SendRate.SelectedItem = Plugin.Settings.UDPSendRate switch
+            {
+                20 => SendRate_20,
+                30 => SendRate_30,
+                60 => SendRate_60,
+                120 => SendRate_120,
+                _ => SendRate_60,
             };
         }
 
@@ -56,6 +64,23 @@ namespace SimHubSF1000UDP
             else if (UDPFormat_Select.SelectedItem == UDPFormat_F123)
             {
                 Plugin.Settings.UDPFormat = UDPFormats.F123;
+            }
+
+            if (SendRate.SelectedItem == SendRate_20)
+            {
+                Plugin.Settings.UDPSendRate = 20;
+            }
+            else if (SendRate.SelectedItem == SendRate_30)
+            {
+                Plugin.Settings.UDPSendRate = 30;
+            }
+            else if (SendRate.SelectedItem == SendRate_60)
+            {
+                Plugin.Settings.UDPSendRate = 60;
+            }
+            else if (SendRate.SelectedItem == SendRate_120)
+            {
+                Plugin.Settings.UDPSendRate = 120;
             }
 
             UDPServer.Instance.Update();

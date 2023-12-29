@@ -33,6 +33,15 @@
                         <ComboBoxItem Name="UDPFormat_F12020">F1 2020</ComboBoxItem>
                     </ComboBox>
                 </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0 10 0 0">
+                    <TextBlock Margin="0 5 5 0">Send rate:</TextBlock>
+                    <ComboBox Name="SendRate" SelectedValuePath="Content">
+                        <ComboBoxItem Name="SendRate_20">20hz</ComboBoxItem>
+                        <ComboBoxItem Name="SendRate_30">30hz</ComboBoxItem>
+                        <ComboBoxItem Name="SendRate_60">60hz</ComboBoxItem>
+                        <ComboBoxItem Name="SendRate_120">120hz</ComboBoxItem>
+                    </ComboBox>
+                </StackPanel>
 
                 <styles:SHButtonPrimary Margin="0 10 0 0" HorizontalAlignment="Left" Content="Save" Click="SaveButtonPrimary_Click"/>
             </StackPanel>

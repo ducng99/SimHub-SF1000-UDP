@@ -56,7 +56,6 @@ namespace SimHubSF1000UDP
             if (!F1gameMatch.IsMatch(pluginManager.GameName))
             {
                 UDPServer.Instance.Start();
-                SimHub.Logging.Current.Info("[SimHub SF1000 UDP] UDP Server running. Sending to " + Settings.ReceiverIP + ":" + Settings.ReceiverPort);
             }
         }
     }
