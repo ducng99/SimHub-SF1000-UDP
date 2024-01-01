@@ -30,6 +30,9 @@ jobs:
   build:
     runs-on: windows-latest
 
+    needs:
+    - generate-changelog
+
     env:
       ReleaseFileName: SimHubSF1000UDP_${{ github.ref_name }}.zip
 
