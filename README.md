@@ -1,18 +1,25 @@
 # SimHub SF1000 UDP
 [![Build](https://github.com/ducng99/SimHub-SF1000-UDP/actions/workflows/build.yml/badge.svg)](https://github.com/ducng99/SimHub-SF1000-UDP/actions/workflows/build.yml)
 
-This plugin primary goal is to add more games support to Thrustmaster™ SF1000 wheel through its UDP support for F1 2020 & F1 23 data structs. Some data will be modified to accomodate for some bugs the wheel has. Some data will be dropped to avoid unnecessary data being transferred to the wheel (eg. weather).
+This plugin primary goal is to add more games support to Thrustmaster™ SF1000 wheel through its support for F1 2020 & F1 23 games UDP.
 
-From SimHub app, this plugin will send UDP packets containing data in [F1 23 UDP format](https://answers.ea.com/t5/General-Discussion/F1-23-UDP-Specification/td-p/12632888), or [F1 2020 UDP format](https://web.archive.org/web/20221127112921/https://forums.codemasters.com/topic/50942-f1-2020-udp-specification/).
+Some data will be modified to accomodate for some bugs the wheel has, and some will be dropped to avoid unnecessary data being transferred to the wheel (eg. weather).
 
-Data comes directly from SimHub without any other plugins so it is limited. Some functionalities on the wheel will not be available. Thrustmaster also does not use all data provided by the game, so some data will not be shown on the wheel, most notably the ERS bar.
+Some functionalities on the wheel will not be available depends on the game you are playing. SF1000 wheel has bugs in its firmware, so some data will not be shown on the wheel, most notably the ERS bar (I reported this and got no response so I guess we'll have to live with it).
+
+<details>
+  <summary>How it works (technical details?)</summary>
+  <p>From SimHub app, this plugin will send UDP packets containing data in <a href="https://answers.ea.com/t5/General-Discussion/F1-23-UDP-Specification/td-p/12632888" target="_blank">F1 23 UDP format</a>, or <a href="https://web.archive.org/web/20221127112921/https://forums.codemasters.com/topic/50942-f1-2020-udp-specification/" target="_blank">F1 2020 UDP format</a>.</p>
+  <p>Data comes directly from SimHub without any other plugins so it is limited.</p>
+</details>
 
 ## Installation
 
 - Download [latest SimHub](https://www.simhubdash.com/download-2/)
-- Download [latest release](https://github.com/ducng99/SimHub-SF1000-UDP/releases/latest)
-- Extract the .dll file to SimHub folder (where SimHubWPF.exe file is)
-- Start SimHub and enable the plugin when prompted (only once)
+- Download [latest release](https://github.com/ducng99/SimHub-SF1000-UDP/releases/latest) (SimHubSF1000UDP_v*.zip)
+- Open the zip file
+- Extract the one file (*.dll) to your SimHub folder (where SimHubWPF.exe file is)
+- Start SimHub and enable the plugin when prompted (only have to do once)
 
 > [!CAUTION]
 > Please check if you have installed v1.* previously, remove file `SimHubToF12020UDP.dll` from SimHub folder before installing v2 - which has a new name `SimHubSF1000UDP.dll`.
@@ -25,7 +32,7 @@ Data comes directly from SimHub without any other plugins so it is limited. Some
 > **(Recommended)** See [Thrustmaster SF1000 website](https://support.thrustmaster.com/en/product/ferrarisf1000addon-en/) for more information on how to check & update your wheel firmware.
 
 ## Configuration
-### Wheel config
+### 1. Wheel config
 
 First thing, you need to configure Wi-Fi for your wheel, please go to [Thrustmaster SF1000 website](https://support.thrustmaster.com/en/product/ferrarisf1000addon-en/), and read instructions provided by them on how to set up UDP/Wi-Fi.
 You should see these two files (you can ignore the steps for F1 games):
@@ -38,7 +45,7 @@ You should see these two files (you can ignore the steps for F1 games):
 
 - For firmware v6.27 and above, UDP is always enabled, you don't have to configure anything on the wheel. If the Wi-Fi screen shows `UDP: 20777` then you are good to go. If not, check your firmware version on Info screen.
 
-### Plugin config
+### 2. Plugin config
 - On your wheel Wi-Fi screen, note the `IP: xxx.xxx.xxx.xxx` address line.
 
   ![image](https://user-images.githubusercontent.com/49080794/226587920-0c0df4ba-760d-48c6-ac06-f9c4c73d8e24.png)
