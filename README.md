@@ -23,12 +23,12 @@ Some functionalities on the wheel will not be available depends on the game you 
 - Start SimHub and enable the plugin when prompted (only have to do once)
 
 > [!CAUTION]
-> Please check if you have installed v1.* previously, remove file `SimHubToF12020UDP.dll` from SimHub folder before installing v2 - which has a new name `SimHubSF1000UDP.dll`.
+> Please check if you have installed v1.* previously, remove file `SimHubToF12020UDP.dll` from SimHub folder before installing v2 - which now has a new name `SimHubSF1000UDP.dll`.
 
 > [!NOTE]
-> Starting from v2, this plugin supports `F1 2020` and `F1 23` UDP format. By default, `F1 23` UDP format is used, which supports SF1000 wheel with firmware v6.27 and above.
+> Starting from v2, this plugin supports `F1 2020` and `F1 23` UDP format. By default, `F1 23` UDP format is used, which only supports SF1000 wheel with firmware v6.27 and above.
 >
-> If your wheel does not show any data or has older firmware, go to `Additional plugins` -> `SimHub SF1000 UDP` tab -> UDP format dropdown -> Select `F1 2020` -> Click `Save` button.
+> If your wheel does not show any data or has older firmware, you can switch to `F1 2020` format by opening `SimHub` -> `Additional plugins` -> `SimHub SF1000 UDP` tab -> UDP format dropdown -> Select `F1 2020` -> Click `Save` button.
 >
 > **(Recommended)** See [Thrustmaster SF1000 website](https://support.thrustmaster.com/en/product/ferrarisf1000addon-en/) for more information on how to check & update your wheel firmware.
 
@@ -51,11 +51,13 @@ You should see these two files (you can ignore the steps for F1 games):
 
   ![image](https://user-images.githubusercontent.com/49080794/226587920-0c0df4ba-760d-48c6-ac06-f9c4c73d8e24.png)
 
-- Open SimHub, go to `Additional plugins` -> `SimHub SF1000 UDP` tab -> Enter the IP shown above in "New IP" section -> Click `Save` button.
+- Open SimHub, go to `Additional plugins` -> `SimHub SF1000 UDP` tab -> Enter the IP shown on your wheel in "New IP" section -> Click `Save` button.
 
   ![image](https://github.com/ducng99/SimHub-SF1000-UDP/assets/49080794/2f8eceac-2206-4f18-83ac-60f22471a2b4)
 
-- Start your game and the wheel should show data.
+- Select your game in SimHub `Games` screen if you haven't already (if you have premium then you don't have to manually select the game - not an ad).
+
+- Start your game and the wheel should show the dash.
 
 ## Building
 ### Requirements
@@ -65,8 +67,10 @@ You should see these two files (you can ignore the steps for F1 games):
 
 ### Steps
 
-1. SimHub libraries are included in this repo, so building should be straightforward as hitting build button. A .dll file will be generated in `bin/Debug` or `bin/Release` folder, depending on your configuration selection.
-2. You know what to do next.
+1. Clone this repo
+2. Open Visual Studio
+3. SimHub libraries are included in this repo, so building should be straightforward as hitting build button. A .dll file will be generated in `bin/Debug` or `bin/Release` folder, depending on your configuration selection.
+4. You know what to do next.
 
 ## Issue
 Any issues please report [here](https://github.com/ducng99/SimHub-SF1000-UDP/issues/new/choose).
