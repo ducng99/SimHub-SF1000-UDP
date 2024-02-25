@@ -2,9 +2,7 @@
 [![Build](https://github.com/ducng99/SimHub-SF1000-UDP/actions/workflows/build.yml/badge.svg)](https://github.com/ducng99/SimHub-SF1000-UDP/actions/workflows/build.yml)
 [![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/ducng99/SimHub-SF1000-UDP/total?logo=github&label=Downloads&labelColor=333&color=196719)](https://github.com/ducng99/SimHub-SF1000-UDP/releases)
 
-This plugin primary goal is to add more games support to Thrustmaster™ SF1000 wheel through its support for F1 2020 & F1 23 games UDP.
-
-Some data will be modified to accomodate for some bugs the wheel has, and some will be dropped to avoid unnecessary data being transferred to the wheel (eg. weather).
+This plugin's primary goal is to provide more games support to Thrustmaster™ SF1000 wheel, such as Assetto Corsa, through its support for F1 2020 & F1 23 games UDP.
 
 Some functionalities on the wheel will not be available depends on the game you are playing. SF1000 wheel has bugs in its firmware, so some data will not be shown on the wheel, most notably the ERS bar (I reported this and got no response so I guess we'll have to live with it).
 
@@ -12,6 +10,7 @@ Some functionalities on the wheel will not be available depends on the game you 
   <summary>How it works (technical details?)</summary>
   <p>From SimHub app, this plugin will send UDP packets containing data in <a href="https://answers.ea.com/t5/General-Discussion/F1-23-UDP-Specification/td-p/12632888" target="_blank">F1 23 UDP format</a>, or <a href="https://web.archive.org/web/20221127112921/https://forums.codemasters.com/topic/50942-f1-2020-udp-specification/" target="_blank">F1 2020 UDP format</a>.</p>
   <p>Data comes directly from SimHub without any other plugins so it is limited.</p>
+  <p>Some data is modified to adapt to some bugs in the wheel, and some will be dropped to avoid unnecessary data being transferred to the wheel (eg. weather).</p>
 </details>
 
 ## Installation
