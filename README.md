@@ -20,9 +20,7 @@ Some functionalities on the wheel will not be available depends on the game you 
 - Open the zip file
 - Extract the one file (*.dll) to your SimHub folder (where SimHubWPF.exe file is)
 - Start SimHub and enable the plugin when prompted (only have to do once)
-
-> [!CAUTION]
-> Please check if you have installed v1.* previously, remove file `SimHubToF12020UDP.dll` from SimHub folder before installing v2 - which now has a new name `SimHubSF1000UDP.dll`.
+- Follow Configuration steps below
 
 > [!NOTE]
 > Starting from v2, this plugin supports `F1 2020` and `F1 23` UDP format. By default, `F1 23` UDP format is used, which only supports SF1000 wheel with firmware v6.27 and above.
@@ -34,16 +32,16 @@ Some functionalities on the wheel will not be available depends on the game you 
 ## Configuration
 ### 1. Wheel config
 
-First thing, you need to configure Wi-Fi for your wheel, please go to [Thrustmaster SF1000 website](https://support.thrustmaster.com/en/product/ferrarisf1000addon-en/), and read instructions provided by them on how to set up UDP/Wi-Fi.
+- First thing, you need to configure Wi-Fi for your wheel, please go to [Thrustmaster SF1000 website](https://support.thrustmaster.com/en/product/ferrarisf1000addon-en/), and read instructions provided by them on how to set up UDP/Wi-Fi.
 You should see these two files (you can ignore the steps for F1 games):
 
-![image](https://github.com/ducng99/SimHub-SF1000-UDP/assets/49080794/ed9bae64-c6a0-4370-8645-0a99b2f79281)
+  ![image](https://github.com/ducng99/SimHub-SF1000-UDP/assets/49080794/ed9bae64-c6a0-4370-8645-0a99b2f79281)
 
-- For firmware v5 and below, you need to configure your wheel to read UDP data. You need to do this everytime the wheel turns on. Please read [Thrustmaster's guide](https://ts.thrustmaster.com/download/accessories/manuals/SF1000/FWheel_Add-On_Ferrari_SF1000Edition_User_Manual.pdf) on how to set it up.
+- If your wheel's firmware is v5 and below (check on wheel's info screen), you need to configure your wheel to read UDP data. You need to do this everytime the wheel turns on. Please read [Thrustmaster's guide](https://ts.thrustmaster.com/download/accessories/manuals/SF1000/FWheel_Add-On_Ferrari_SF1000Edition_User_Manual.pdf) on how to set it up.
 
   ![image](https://user-images.githubusercontent.com/49080794/226588068-e1735f09-33d2-47d3-87b5-c2e48364121b.png)
 
-- For firmware v6.27 and above, UDP is always enabled, you don't have to configure anything on the wheel. If the Wi-Fi screen shows `UDP: 20777` then you are good to go. If not, check your firmware version on Info screen.
+- If you have firmware v6.27 and above, UDP is always enabled, you don't have to configure anything on the wheel. If the Wi-Fi screen shows `UDP: 20777` then you are good to go. If not, check your firmware version again on Info screen or check if Wi-Fi has been configured correctly.
 
 ### 2. Plugin config
 - On your wheel Wi-Fi screen, note the `IP: xxx.xxx.xxx.xxx` address line.
@@ -54,7 +52,7 @@ You should see these two files (you can ignore the steps for F1 games):
 
   ![image](https://github.com/ducng99/SimHub-SF1000-UDP/assets/49080794/2f8eceac-2206-4f18-83ac-60f22471a2b4)
 
-- Select your game in SimHub `Games` screen if you haven't already (if you have premium then you don't have to manually select the game - not an ad).
+- Select your game in SimHub `Games` screen if you haven't already (if you have SimHub Licensed Edition then you don't have to manually select the game - not an ad).
 
 - Start your game and the wheel should show the dash.
 
@@ -71,8 +69,8 @@ You should see these two files (you can ignore the steps for F1 games):
 3. SimHub libraries are included in this repo, so building should be straightforward as hitting build button. A .dll file will be generated in `bin/Debug` or `bin/Release` folder, depending on your configuration selection.
 4. You know what to do next.
 
-## Issue
-Any issues please report [here](https://github.com/ducng99/SimHub-SF1000-UDP/issues/new/choose).
+## Issue & suggestions
+If you have any issues or suggestions, please create an issue [here](https://github.com/ducng99/SimHub-SF1000-UDP/issues/new/choose).
 
 ## Disclaimer
 This application/project is not affiliated, associated, authorized, endorsed by, or in any way officially connected with Guillemot Corporation S.A, or any of its subsidiaries or its affiliate. Thrustmaster is a registered trademarks of Guillemot Corporation S.A.
