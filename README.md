@@ -1,10 +1,10 @@
 # SimHub SF1000 UDP
 [![Build](https://github.com/ducng99/SimHub-SF1000-UDP/actions/workflows/build.yml/badge.svg)](https://github.com/ducng99/SimHub-SF1000-UDP/actions/workflows/build.yml)
-[![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/ducng99/SimHub-SF1000-UDP/total?logo=github&label=Downloads&labelColor=333&color=196719)](https://github.com/ducng99/SimHub-SF1000-UDP/releases)
+[![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/ducng99/SimHub-SF1000-UDP/total?logo=github&label=Downloads&labelColor=333&color=196719)](https://github.com/ducng99/SimHub-SF1000-UDP/releases/latest)
 
 This plugin's primary goal is to provide more games support to Thrustmaster™ SF1000 wheel, such as Assetto Corsa, through its support for F1 2020 & F1 23 games UDP.
 
-Some functionalities on the wheel will not be available depends on the game you are playing. SF1000 wheel has bugs in its firmware, so some data will not be shown on the wheel, most notably the ERS bar (I reported this and got no response so I guess we'll have to live with it).
+Some functionalities on the wheel won't be available depending on the game you play. Also, the SF1000 wheel has bugs in its firmware, so some data will not be shown on the dash, most notably the ERS bar (I reported this and got no response so I guess we'll have to live with it).
 
 <details>
   <summary>How it works (technical details?)</summary>
@@ -69,7 +69,7 @@ You should see these two files (you can ignore the steps for F1 games):
 3. SimHub libraries are included in this repo, so building should be straightforward as hitting build button. A .dll file will be generated in `bin/Debug` or `bin/Release` folder, depending on your configuration selection.
 4. You know what to do next.
 
-## Issue & suggestions
+## Issues & suggestions
 If you have any issues or suggestions, please create an issue [here](https://github.com/ducng99/SimHub-SF1000-UDP/issues/new/choose).
 
 ## Disclaimer
