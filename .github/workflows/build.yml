@@ -16,11 +16,11 @@ jobs:
       release_body: ${{ steps.git-cliff.outputs.content }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Generate a changelog
-        uses: orhun/git-cliff-action@v2
+        uses: orhun/git-cliff-action@v3
         id: git-cliff
         with:
           config: cliff.toml
@@ -30,15 +30,18 @@ jobs:
   build:
     runs-on: windows-latest
 
+    needs:
+    - generate-changelog
+
     env:
       ReleaseFileName: SimHubSF1000UDP_${{ github.ref_name }}.zip
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v1.1
+      uses: microsoft/setup-msbuild@v2
 
     - name: Build plugin DLL file
       run: msbuild /p:Configuration=Release
@@ -47,7 +50,7 @@ jobs:
       run: Compress-Archive -Path ./SimHubSF1000UDP/bin/Release/SimHubSF1000UDP.dll -DestinationPath ./${{ env.ReleaseFileName }}
     
     - name: Create release
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v2
       with:
         body: "${{ needs.generate-changelog.outputs.release_body }}"
         fail_on_unmatched_files: true
