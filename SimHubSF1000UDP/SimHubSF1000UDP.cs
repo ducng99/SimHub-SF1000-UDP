@@ -59,7 +59,7 @@ namespace SimHubSF1000UDP
                 return;
             }
 
-            Regex F1gameMatch = new(@"/^F120\d{2}$/");
+            Regex F1gameMatch = new(@"^F120\d{2}$");
 
             // Only run if not in F1 game
             if (!F1gameMatch.IsMatch(pluginManager.GameName))
