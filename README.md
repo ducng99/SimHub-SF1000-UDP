@@ -57,6 +57,10 @@ You should see these two files (you can ignore the steps for F1 games):
 - Start your game and the wheel should show the dash.
 
 ## Building
+
+> [!NOTE]
+> This section is for developers only, if you just want to use the plugin, follow [Installation](https://github.com/ducng99/SimHub-SF1000-UDP#installation) and [Configuration](https://github.com/ducng99/SimHub-SF1000-UDP#configuration)
+
 ### Requirements
 
 - Visual Studio 2022 (recommended), other versions might work but not tested.
@@ -66,11 +70,13 @@ You should see these two files (you can ignore the steps for F1 games):
 
 1. Clone this repo
 2. Open Visual Studio
-3. SimHub libraries are included in this repo, so building should be straightforward as hitting build button. A .dll file will be generated in `bin/Debug` or `bin/Release` folder, depending on your configuration selection.
-4. You know what to do next.
+3. SimHub libraries are included in this repo, so building should be straightforward as hitting build button.
+4. A .dll file will be generated in `bin/Debug` or `bin/Release` folder, depending on your configuration selection.
+5. Copy the built .dll file to SimHub directory.
+6. Do whatever you want with the plugin
 
 ## Issues & suggestions
-If you have any issues or suggestions, please create an issue [here](https://github.com/ducng99/SimHub-SF1000-UDP/issues/new/choose).
+If you have any issues/questions or suggestions, please create an issue [here](https://github.com/ducng99/SimHub-SF1000-UDP/issues/new/choose).
 
 ## Disclaimer
 This application/project is not affiliated, associated, authorized, endorsed by, or in any way officially connected with Guillemot Corporation S.A, or any of its subsidiaries or its affiliate. Thrustmaster is a registered trademarks of Guillemot Corporation S.A.
