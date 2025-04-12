@@ -1,0 +1,74 @@
+name: Release
+
+on:
+  push:
+    tags: 
+    - 'v*'
+
+env:
+  ReleaseFileName: SimHubSF1000UDP_${{ github.ref_name }}.zip
+
+jobs:
+  generate-changelog:
+    name: Generate changelog
+    runs-on: ubuntu-22.04
+    outputs:
+      release_body: ${{ steps.git-cliff.outputs.content }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Generate a changelog
+        uses: orhun/git-cliff-action@v4
+        id: git-cliff
+        with:
+          config: cliff.toml
+          args: -vv -l -s all
+        env:
+          OUTPUT: CHANGES.md
+
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Build plugin DLL file
+      run: msbuild /p:Configuration=Release
+
+    - name: Zip output DLL file
+      run: Compress-Archive -Path ./SimHubSF1000UDP/bin/Release/SimHubSF1000UDP.dll -DestinationPath ./${{ env.ReleaseFileName }}
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-file
+        path: ${{ env.ReleaseFileName }}
+
+  create-release:
+    runs-on: ubuntu-latest
+
+    needs:
+    - generate-changelog
+    - build
+
+    permissions:
+      contents: write
+
+    steps:
+    - name: Download artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: build-file
+
+    - name: Create release
+      uses: softprops/action-gh-release@v2
+      with:
+        body: "${{ needs.generate-changelog.outputs.release_body }}"
+        fail_on_unmatched_files: true
+        files: ${{ env.ReleaseFileName }}
