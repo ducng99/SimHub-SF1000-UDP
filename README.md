@@ -1,5 +1,4 @@
 # SimHub SF1000 UDP
-[![Build](https://github.com/ducng99/SimHub-SF1000-UDP/actions/workflows/build.yml/badge.svg)](https://github.com/ducng99/SimHub-SF1000-UDP/actions/workflows/build.yml)
 [![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/ducng99/SimHub-SF1000-UDP/total?logo=github&label=Downloads&labelColor=333&color=196719)](https://github.com/ducng99/SimHub-SF1000-UDP/releases/latest)
 
 This plugin's primary goal is to provide more games support to Thrustmaster™ SF1000 wheel, such as Assetto Corsa, through its support for F1 2020 & F1 23 games UDP.
