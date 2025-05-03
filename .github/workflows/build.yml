@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths: ["SimHubSF1000UDP/**", "SimHubSF1000UDP.sln", "libs/**"]
   pull_request:
+    types: [opened, synchronize, reopened]
   workflow_dispatch:
 
 jobs:
