@@ -30,14 +30,19 @@ jobs:
           echo "Download link: $DOWNLOAD_URL"
 
           if [ "$LATEST_TAG" != "$CURRENT_TAG" ]; then
-            echo "should_run=true" >> $GITHUB_OUTPUT
-            echo "latest_tag=$LATEST_TAG" >> $GITHUB_OUTPUT
-            echo "current_tag=$CURRENT_TAG" >> $GITHUB_OUTPUT
-            echo "download_url=$DOWNLOAD_URL" >> $GITHUB_OUTPUT
-            echo "New version found"
-          else
-            echo "should_run=false" > $GITHUB_OUTPUT
+            git ls-remote --exit-code --heads origin "refs/heads/chore/simhub/v$LATEST_TAG" >/dev/null
+
+            if [ $? -eq 0 ]; then
+              echo "should_run=true" >> $GITHUB_OUTPUT
+              echo "latest_tag=$LATEST_TAG" >> $GITHUB_OUTPUT
+              echo "current_tag=$CURRENT_TAG" >> $GITHUB_OUTPUT
+              echo "download_url=$DOWNLOAD_URL" >> $GITHUB_OUTPUT
+              echo "New version found"
+              exit 0
+            fi
           fi
+
+          echo "should_run=false" > $GITHUB_OUTPUT
 
       - name: Download Binary
         if: ${{ steps.precheck.outputs.should_run == 'true' }}
