@@ -43,6 +43,7 @@ jobs:
           fi
 
           echo "should_run=false" > $GITHUB_OUTPUT
+          exit 0
 
       - name: Download Binary
         if: ${{ steps.precheck.outputs.should_run == 'true' }}
