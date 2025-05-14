@@ -19,10 +19,11 @@ jobs:
 
       - name: Fetch latest binary
         id: precheck
+        continue-on-error: true
         run: |
           curl -Ls "https://api.github.com/repos/SHWotever/SimHub/releases/latest" -o latest_simhub.json
-          LATEST_TAG=$(cat ./latest_simhub.json | grep -Po '"tag_name": "\K[^"]*')
-          DOWNLOAD_URL=$(cat ./latest_simhub.json | grep -Po '"browser_download_url": "\K[^"]*')
+          LATEST_TAG=$(grep -Po '"tag_name": "\K[^"]*' ./latest_simhub.json)
+          DOWNLOAD_URL=$(grep -Po '"browser_download_url": "\K[^"]*' ./latest_simhub.json)
           CURRENT_TAG=$(<./libs/SimHub/VERSION)
 
           echo "Latest build: $LATEST_TAG"
