@@ -31,6 +31,7 @@ jobs:
           echo "Download link: $DOWNLOAD_URL"
 
           if [ "$LATEST_TAG" != "$CURRENT_TAG" ]; then
+            set +e
             git ls-remote --exit-code --heads origin "refs/heads/chore/simhub/v$LATEST_TAG" >/dev/null
 
             if [ $? != 0 ]; then
