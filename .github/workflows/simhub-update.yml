@@ -15,7 +15,7 @@ jobs:
       current_tag: ${{ steps.precheck.outputs.current_tag }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Fetch latest binary
         id: precheck
@@ -119,7 +119,7 @@ jobs:
       pull-requests: write
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Download SimHub files
         uses: actions/download-artifact@v5
