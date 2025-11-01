@@ -55,7 +55,7 @@ jobs:
 
       - name: Upload setup file
         if: ${{ steps.precheck.outputs.should_run == 'true' }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: simhub-setup
           path: SimHubSetup.exe
@@ -95,7 +95,7 @@ jobs:
           Write-Output "All files are found"
 
       - name: Upload SimHub files
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: simhub-files
           path: |
