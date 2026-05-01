@@ -67,7 +67,7 @@ jobs:
         name: build-file
 
     - name: Create release
-      uses: softprops/action-gh-release@v2
+      uses: softprops/action-gh-release@v3
       with:
         body: "${{ needs.generate-changelog.outputs.release_body }}"
         fail_on_unmatched_files: true
