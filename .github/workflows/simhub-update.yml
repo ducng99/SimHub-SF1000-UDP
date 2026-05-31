@@ -1,18 +1,19 @@
-name: SimHub deps update
+name: SimHub Update & Release
 
 on:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: "0 0 * * *"
   workflow_dispatch:
 
 jobs:
-  fetch-binary:
-    runs-on: ubuntu-latest
+  check-update:
+    runs-on: ubuntu-slim
 
     outputs:
       should_run: ${{ steps.precheck.outputs.should_run }}
       latest_tag: ${{ steps.precheck.outputs.latest_tag }}
       current_tag: ${{ steps.precheck.outputs.current_tag }}
+      download_url: ${{ steps.precheck.outputs.download_url }}
 
     steps:
       - uses: actions/checkout@v6
@@ -31,55 +32,42 @@ jobs:
           echo "Download link: $DOWNLOAD_URL"
 
           if [ "$LATEST_TAG" != "$CURRENT_TAG" ]; then
-            set +e
-            git ls-remote --exit-code --heads origin "refs/heads/chore/simhub/v$LATEST_TAG" >/dev/null
-
-            if [ $? != 0 ]; then
-              echo "should_run=true" >> $GITHUB_OUTPUT
-              echo "latest_tag=$LATEST_TAG" >> $GITHUB_OUTPUT
-              echo "current_tag=$CURRENT_TAG" >> $GITHUB_OUTPUT
-              echo "download_url=$DOWNLOAD_URL" >> $GITHUB_OUTPUT
-              echo "New version found"
-              exit 0
-            fi
+            echo "should_run=true" >> $GITHUB_OUTPUT
+            echo "latest_tag=$LATEST_TAG" >> $GITHUB_OUTPUT
+            echo "current_tag=$CURRENT_TAG" >> $GITHUB_OUTPUT
+            echo "download_url=$DOWNLOAD_URL" >> $GITHUB_OUTPUT
+            echo "New version found"
+            exit 0
           fi
 
-          echo "should_run=false" > $GITHUB_OUTPUT
+          echo "should_run=false" >> $GITHUB_OUTPUT
           exit 0
 
-      - name: Download Binary
-        if: ${{ steps.precheck.outputs.should_run == 'true' }}
-        run: |
-          curl -L "${{ steps.precheck.outputs.download_url }}" -o SimHub.zip
-          unzip -vp SimHub.zip > SimHubSetup.exe
-
-      - name: Upload setup file
-        if: ${{ steps.precheck.outputs.should_run == 'true' }}
-        uses: actions/upload-artifact@v7
-        with:
-          name: simhub-setup
-          path: SimHubSetup.exe
-          retention-days: 1
-          if-no-files-found: error
-          compression-level: 0
-
-  simhub:
+  update-simhub:
     runs-on: windows-latest
 
     needs:
-      - fetch-binary
+      - check-update
 
-    if: ${{ needs.fetch-binary.outputs.should_run == 'true' }}
+    if: ${{ needs.check-update.outputs.should_run == 'true' }}
+
+    outputs:
+      new_version: ${{ steps.version.outputs.new_version }}
+
+    permissions:
+      contents: write
 
     steps:
-      - uses: actions/download-artifact@v8
-        with:
-          name: simhub-setup
+      - uses: actions/checkout@v6
 
-      - name: Install SimHub
+      - name: Download and install SimHub
+        shell: pwsh
         run: |
+          Invoke-WebRequest -Uri "${{ needs.check-update.outputs.download_url }}" -OutFile "C:\SimHub.zip"
+          Expand-Archive -Path "C:\SimHub.zip" -DestinationPath "C:\" -Force
+
           New-Item -Path "C:\" -Name "simhub" -ItemType "Directory"
-          ./SimHubSetup.exe /VERYSILENT /Dir="C:\simhub"
+          C:\SimHubSetup_${{ needs.check-update.outputs.latest_tag }}.exe /VERYSILENT /Dir="C:\simhub"
 
           do {
             Write-Output "Waiting for files..."
@@ -94,56 +82,123 @@ jobs:
           Start-Sleep -Seconds 3
           Write-Output "All files are found"
 
-      - name: Upload SimHub files
-        uses: actions/upload-artifact@v7
-        with:
-          name: simhub-files
-          path: |
-            C:/simhub/GameReaderCommon.dll
-            C:/simhub/SimHub.Logging.dll
-            C:/simhub/SimHub.Plugins.dll
-            C:/simhub/log4net.dll
-          retention-days: 1
-          if-no-files-found: error
-          compression-level: 0
+      - name: Update libs
+        run: |
+          Copy-Item "C:\simhub\GameReaderCommon.dll" -Destination "./libs/SimHub/" -Force
+          Copy-Item "C:\simhub\SimHub.Logging.dll" -Destination "./libs/SimHub/" -Force
+          Copy-Item "C:\simhub\SimHub.Plugins.dll" -Destination "./libs/SimHub/" -Force
+          Copy-Item "C:\simhub\log4net.dll" -Destination "./libs/SimHub/" -Force
+          "${{ needs.check-update.outputs.latest_tag }}" | Set-Content "./libs/SimHub/VERSION"
 
-  create-pr:
-    runs-on: ubuntu-latest
+      - name: Bump version
+        id: version
+        shell: pwsh
+        run: |
+          git fetch --tags --force
+          $tags = git tag --sort=-v:refname | Where-Object { $_ -match '^v\d+\.\d+\.\d+$' }
+          if (-not $tags -or $tags.Count -eq 0) {
+            Write-Error "No tags found. Cannot determine current version."
+            exit 1
+          } else {
+            $latest = $tags | Select-Object -First 1
+            $version = $latest.Substring(1)
+            $parts = $version.Split('.')
+            $parts[2] = [int]$parts[2] + 1
+            $newVersion = "v" + ($parts -join '.')
+          }
+          Write-Output "New version: $newVersion"
+          "new_version=$newVersion" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "chore(deps-dev): Bump SimHub from v${{ needs.check-update.outputs.current_tag }} to v${{ needs.check-update.outputs.latest_tag }}"
+          git tag ${{ steps.version.outputs.new_version }}
+          git push origin main --tags
+
+  build:
+    runs-on: windows-latest
 
     needs:
-      - fetch-binary
-      - simhub
+      - update-simhub
 
-    permissions:
-      contents: write
-      pull-requests: write
+    env:
+      ReleaseFileName: SimHubSF1000UDP_${{ needs.update-simhub.outputs.new_version }}.zip
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: main
 
-      - name: Download SimHub files
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v3
+
+      - name: Build plugin DLL file
+        run: msbuild /p:Configuration=Release
+
+      - name: Zip output DLL file
+        run: Compress-Archive -Path ./SimHubSF1000UDP/bin/Release/SimHubSF1000UDP.dll -DestinationPath ./${{ env.ReleaseFileName }}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: build-file
+          path: ${{ env.ReleaseFileName }}
+
+  generate-changelog:
+    runs-on: ubuntu-slim
+
+    needs:
+      - update-simhub
+
+    permissions:
+      contents: read
+
+    outputs:
+      release_body: ${{ steps.git-cliff.outputs.content }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Generate a changelog
+        uses: orhun/git-cliff-action@v4
+        id: git-cliff
+        with:
+          config: cliff.toml
+          args: -vv -l -s all
+        env:
+          OUTPUT: CHANGES.md
+
+  release:
+    runs-on: ubuntu-slim
+
+    needs:
+      - update-simhub
+      - build
+      - generate-changelog
+
+    permissions:
+      contents: write
+
+    env:
+      ReleaseFileName: SimHubSF1000UDP_${{ needs.update-simhub.outputs.new_version }}.zip
+
+    steps:
+      - name: Download artifact
         uses: actions/download-artifact@v8
         with:
-          name: simhub-files
-          path: libs/SimHub
+          name: build-file
 
-      - name: Create branch
-        run: |
-          echo "${{ needs.fetch-binary.outputs.latest_tag }}" > ./libs/SimHub/VERSION
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "github-actions[bot]"
-          git checkout -b chore/simhub/v${{ needs.fetch-binary.outputs.latest_tag }}
-          git add .
-          git commit -m "chore(deps-dev): Bump SimHub from v${{ needs.fetch-binary.outputs.current_tag }} to v${{ needs.fetch-binary.outputs.latest_tag }}"
-          git push --set-upstream origin chore/simhub/v${{ needs.fetch-binary.outputs.latest_tag }}
-
-      - name: Create PR
-        run: |
-          # Create new PR
-          PR_URL=$(gh pr create -H chore/simhub/v${{ needs.fetch-binary.outputs.latest_tag }} -t "chore(deps-dev): bump SimHub from v${{ needs.fetch-binary.outputs.current_tag }} to v${{ needs.fetch-binary.outputs.latest_tag }}" -b 'Bump SimHub from v${{ needs.fetch-binary.outputs.current_tag }} to v${{ needs.fetch-binary.outputs.latest_tag }}')
-          echo "$PR_URL"
-
-          # Close previous PRs
-          gh pr list -H "chore/simhub/" --json number -q '.[].number' -S "-head:chore/simhub/v${{ needs.fetch-binary.outputs.latest_tag }}" | xargs -I {} gh pr close -c "Superseded by $PR_URL" -d {}
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create release
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: ${{ needs.update-simhub.outputs.new_version }}
+          name: ${{ needs.update-simhub.outputs.new_version }}
+          body: "${{ needs.generate-changelog.outputs.release_body }}"
+          fail_on_unmatched_files: true
+          files: ${{ env.ReleaseFileName }}

@@ -1,6 +1,15 @@
 # SimHub SF1000 UDP
 [![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/ducng99/SimHub-SF1000-UDP/total?logo=github&label=Downloads&labelColor=333&color=196719)](https://github.com/ducng99/SimHub-SF1000-UDP/releases/latest)
 
+> [!NOTE]
+> As I haven't been using the SF1000 wheel for years, I don't have the capacity to keep updating this plugin.
+> Issues and PRs will be closed.
+>
+> I have set up an automated update to match SimHub updates - every time SimHub releases an update, this plugin will be updated.
+> If you suddenly find the plugin no longer works, you can try downloading the latest plugin.
+>
+> This project is under [MIT](./LICENSE) license, anyone wants to fork, modify, redistribute is free to do so.
+
 This plugin's primary goal is to provide more games support to Thrustmaster™ SF1000 wheel, such as Assetto Corsa, through its support for F1 2020 & F1 23 games UDP.
 
 Some functionalities on the wheel won't be available depending on the game you play. Also, the SF1000 wheel has bugs in its firmware, so some data will not be shown on the dash, most notably the ERS bar (I reported this and got no response so I guess we'll have to live with it).
