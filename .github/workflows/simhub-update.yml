@@ -109,6 +109,14 @@ jobs:
           Write-Output "New version: $newVersion"
           "new_version=$newVersion" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
 
+          $versionFile = "./SimHubSF1000UDP/Properties/AssemblyInfo.cs"
+          $content = Get-Content $versionFile -Raw
+          $assemblyVersion = $parts -join '.'
+          $content = $content -replace '(AssemblyVersion\(")\d+\.\d+\.\d+\.\d+(")', "`${1}${assemblyVersion}.0`${2}"
+          $content = $content -replace '(AssemblyFileVersion\(")\d+\.\d+\.\d+\.\d+(")', "`${1}${assemblyVersion}.0`${2}"
+          $content | Set-Content $versionFile -NoNewline
+          Write-Output "Updated AssemblyInfo.cs to ${assemblyVersion}.0"
+
       - name: Commit and push
         run: |
           git config user.name "github-actions[bot]"
