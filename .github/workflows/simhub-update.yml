@@ -16,7 +16,7 @@ jobs:
       download_url: ${{ steps.precheck.outputs.download_url }}
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Fetch latest binary
         id: precheck
@@ -58,7 +58,7 @@ jobs:
       contents: write
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Download and install SimHub
         shell: pwsh
@@ -136,7 +136,7 @@ jobs:
       ReleaseFileName: SimHubSF1000UDP_${{ needs.update-simhub.outputs.new_version }}.zip
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           ref: main
 
@@ -169,7 +169,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
